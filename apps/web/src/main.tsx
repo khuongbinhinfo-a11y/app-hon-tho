@@ -305,36 +305,193 @@ function TamThucHub() {
   );
 }
 
-function PlaceholderPage({ title, parent, parentHref }: { title: string; parent: string; parentHref: string }) {
+interface PlaceholderConfig {
+  title: string;
+  subtitle: string;
+  icon: string;
+  desc: string;
+  parent: string;
+  parentHref: string;
+  grandParent?: string;
+  grandParentHref?: string;
+}
+
+function PlaceholderPage({ cfg }: { cfg: PlaceholderConfig }) {
+  const { title, subtitle, icon, desc, parent, parentHref, grandParent, grandParentHref } = cfg;
   return (
     <Shell>
-      <div className="placeholder-page">
-        <div className="breadcrumb"><a href="/">🏠</a> / <a href={parentHref}>{parent}</a> / <span>{title}</span></div>
-        <div className="ornament">◆</div>
+      <div className="placeholder-hero">
+        <div className="breadcrumb">
+          <a href="/">🏠</a>
+          {" / "}
+          {grandParent && grandParentHref
+            ? <><a href={grandParentHref}>{grandParent}</a>{" / "}</>
+            : null}
+          <a href={parentHref}>{parent}</a>
+          {" / "}
+          <span>{title}</span>
+        </div>
+        <div className="placeholder-icon">{icon}</div>
         <h1>{title}</h1>
-        <p className="lead">Ứng dụng đang được chuẩn bị. Đây là trang giữ chỗ, nội dung thực hành sẽ được đưa lên sau.</p>
-        <p className="muted-note">Không thay thế tư duy độc lập · Tham khảo có kiểm soát · Thực hành có hệ thống</p>
-        <a className="back-btn" href={parentHref}>← Quay lại {parent}</a>
+        {subtitle && <p style={{ color: "var(--gold)", fontSize: "14px", letterSpacing: ".08em", marginBottom: "16px" }}>{subtitle}</p>}
+        <p className="lead">{desc}</p>
+      </div>
+      <div className="placeholder-body">
+        <div className="placeholder-notice">
+          <strong>Ứng dụng đang được chuẩn bị</strong>
+          Nội dung sẽ được biên soạn theo hướng tra cứu có kiểm soát, không phán đoán cực đoan.
+          Thông tin mang tính tham khảo, không thay thế phán xét độc lập của người dùng.
+        </div>
+        <div className="placeholder-btn-row">
+          <a className="ph-btn-primary" href={parentHref}>← Quay về {parent}</a>
+          <a className="ph-btn-secondary" href="/">Về trang chủ App</a>
+        </div>
       </div>
     </Shell>
   );
 }
 
+function TuTruPage() {
+  return (
+    <Shell activePage="nguthuat">
+      <div className="page-hero" style={{ backgroundImage: "url('/images/nguthuat/bg-nguthuat-hero.webp')" }}>
+        <div className="page-hero-overlay" />
+        <div className="page-hero-content">
+          <div className="breadcrumb">
+            <a href="/">🏠</a>{" / "}
+            <a href="/">Trang chủ</a>{" / "}
+            <a href="/nguthuat">Ngũ thuật</a>{" / "}
+            <a href="/nguthuat">Mệnh</a>{" / "}
+            <span>Tứ Trụ</span>
+          </div>
+          <div className="ornament">◆</div>
+          <h1>Tứ Trụ</h1>
+          <p className="lead">
+            Ứng dụng tham khảo lá số Tứ Trụ, hỗ trợ tra cứu có kiểm soát và diễn giải thận trọng.
+          </p>
+        </div>
+      </div>
+      <div className="tutru-wrapper">
+        <div className="tutru-frame-box">
+          <iframe
+            src="/apps/tutru/index.html"
+            title="Tứ Trụ App"
+            allowFullScreen
+          >
+            <div className="tutru-fallback">
+              Trình duyệt không hỗ trợ hiển thị ứng dụng nhúng.
+              <br />
+              <a className="ph-btn-primary" style={{ marginTop: "16px", display: "inline-flex" }} href="/apps/tutru/index.html" target="_blank" rel="noreferrer">
+                Mở Tứ Trụ trong tab mới →
+              </a>
+            </div>
+          </iframe>
+        </div>
+        <div style={{ marginTop: "24px" }} className="placeholder-btn-row">
+          <a className="ph-btn-primary" href="/nguthuat">← Quay về Ngũ thuật</a>
+          <a className="ph-btn-secondary" href="/">Về trang chủ App</a>
+        </div>
+      </div>
+    </Shell>
+  );
+}
+
+const PLACEHOLDER_ROUTES: Record<string, PlaceholderConfig> = {
+  "/nguthuat/son/phongthu": {
+    title: "Sơn - Phong thủy an cư",
+    subtitle: "Phong thủy · Bát trạch · Phi tinh",
+    icon: "🏔",
+    desc: "Tra cứu phong thủy an cư, Bát trạch, Phi tinh, hướng nhà và bố cục không gian sống theo tri thức cổ học.",
+    parent: "Ngũ thuật",
+    parentHref: "/nguthuat",
+    grandParent: "Trang chủ",
+    grandParentHref: "/",
+  },
+  "/nguthuat/y/yhoc": {
+    title: "Y - Y học cổ học",
+    subtitle: "Dưỡng sinh · Khí huyết · Mùa tiết",
+    icon: "⚕",
+    desc: "Tra cứu kiến thức dưỡng sinh, mùa tiết, thân thể và khí huyết theo góc nhìn y học cổ truyền. Chỉ mang tính tham khảo.",
+    parent: "Ngũ thuật",
+    parentHref: "/nguthuat",
+    grandParent: "Trang chủ",
+    grandParentHref: "/",
+  },
+  "/nguthuat/boc/maihoa": {
+    title: "Bốc - Mai Hoa Dịch Số",
+    subtitle: "Mai Hoa · 64 quẻ Dịch",
+    icon: "☵",
+    desc: "Lập quẻ tham khảo theo phương pháp Mai Hoa Dịch Số, học tượng số và cách đọc có giới hạn.",
+    parent: "Ngũ thuật",
+    parentHref: "/nguthuat",
+    grandParent: "Trang chủ",
+    grandParentHref: "/",
+  },
+  "/nguthuat/tuong/xem-tuong": {
+    title: "Tướng - Xem tướng tham khảo",
+    subtitle: "Tướng học · Quan sát · Học hỏi",
+    icon: "👁",
+    desc: "Quan sát hình tướng theo tinh thần học hỏi, không định kiến con người. Nội dung mang tính tham khảo học thuật.",
+    parent: "Ngũ thuật",
+    parentHref: "/nguthuat",
+    grandParent: "Trang chủ",
+    grandParentHref: "/",
+  },
+  "/tam-thuc/ky-mon": {
+    title: "Kỳ Môn",
+    subtitle: "Kỳ Môn Độn Giáp",
+    icon: "🧭",
+    desc: "Cục bàn thời không, trạch hướng, lựa chọn thời cơ và phương vị theo Kỳ Môn Độn Giáp.",
+    parent: "Tam thức",
+    parentHref: "/tam-thuc",
+    grandParent: "Trang chủ",
+    grandParentHref: "/",
+  },
+  "/tam-thuc/thai-at": {
+    title: "Thái Ất",
+    subtitle: "Thái Ất Thần Số",
+    icon: "🌙",
+    desc: "Dự đoán cát hung, thiên thời, nhân sự và vận hạn theo hệ thống Thái Ất. Tham khảo có kiểm soát.",
+    parent: "Tam thức",
+    parentHref: "/tam-thuc",
+    grandParent: "Trang chủ",
+    grandParentHref: "/",
+  },
+  "/tam-thuc/luc-nham": {
+    title: "Lục Nhâm",
+    subtitle: "Đại Lục Nhâm",
+    icon: "⚖",
+    desc: "Phán đoán sự việc, công việc, hành trình và các tình huống thực tế theo Đại Lục Nhâm.",
+    parent: "Tam thức",
+    parentHref: "/tam-thuc",
+    grandParent: "Trang chủ",
+    grandParentHref: "/",
+  },
+  "/account": {
+    title: "Tài khoản",
+    subtitle: "",
+    icon: "👤",
+    desc: "Quản lý thông tin cá nhân, bảo mật và tuỳ chọn sử dụng. Tính năng đang được phát triển.",
+    parent: "Trang chủ",
+    parentHref: "/",
+  },
+  "/history": {
+    title: "Lịch sử tra cứu",
+    subtitle: "",
+    icon: "🕐",
+    desc: "Xem lại các lần tra cứu, thực hành và ghi chú. Tính năng đang được phát triển.",
+    parent: "Trang chủ",
+    parentHref: "/",
+  },
+};
+
 function App() {
   const path = route();
   if (path === "/nguthuat") return <NguThuatHub />;
   if (path === "/tam-thuc") return <TamThucHub />;
-  if (path === "/nguthuat/menh/tutru") return <PlaceholderPage title="Mệnh · Tứ Trụ" parent="Ngũ thuật" parentHref="/nguthuat" />;
-  if (path === "/nguthuat/son/phongthu") return <PlaceholderPage title="Sơn · Phong thủy an cư" parent="Ngũ thuật" parentHref="/nguthuat" />;
-  if (path === "/nguthuat/y/yhoc") return <PlaceholderPage title="Y · Y học cổ học" parent="Ngũ thuật" parentHref="/nguthuat" />;
-  if (path === "/nguthuat/boc/maihoa") return <PlaceholderPage title="Bốc · Mai Hoa" parent="Ngũ thuật" parentHref="/nguthuat" />;
-  if (path === "/nguthuat/tuong/xem-tuong") return <PlaceholderPage title="Tướng · Xem tướng" parent="Ngũ thuật" parentHref="/nguthuat" />;
-  if (path === "/tam-thuc/ky-mon") return <PlaceholderPage title="Kỳ Môn Độn Giáp" parent="Tam thức" parentHref="/tam-thuc" />;
-  if (path === "/tam-thuc/thai-at") return <PlaceholderPage title="Thái Ất Thần Số" parent="Tam thức" parentHref="/tam-thuc" />;
-  if (path === "/tam-thuc/luc-nham") return <PlaceholderPage title="Đại Lục Nhâm" parent="Tam thức" parentHref="/tam-thuc" />;
-  if (path === "/account") return <PlaceholderPage title="Tài khoản" parent="Trang chủ" parentHref="/" />;
-  if (path === "/history") return <PlaceholderPage title="Lịch sử tra cứu" parent="Trang chủ" parentHref="/" />;
-  if (path === "/admin") return <PlaceholderPage title="Quản trị" parent="Trang chủ" parentHref="/" />;
+  if (path === "/nguthuat/menh/tutru") return <TuTruPage />;
+  const ph = PLACEHOLDER_ROUTES[path];
+  if (ph) return <PlaceholderPage cfg={ph} />;
   return <Home />;
 }
 

@@ -295,17 +295,176 @@ a { color: inherit; text-decoration: none; }
 .back-btn:hover { background: rgba(214,180,106,.12); }
 
 /* ── RESPONSIVE ── */
+
+/* Tablet 768-900px */
 @media (max-width: 900px) {
   .home-portals { grid-template-columns: 1fr; }
   .home-cards { grid-template-columns: 1fr; }
   .branch-cards.five { grid-template-columns: repeat(2, 1fr); }
   .branch-cards.three { grid-template-columns: 1fr; }
   .principles-bar { flex-direction: column; align-items: center; }
+  .portal-card { min-height: 280px; }
 }
+
+/* Mobile ≤600px */
 @media (max-width: 600px) {
-  .top-nav { padding: 0 16px; }
-  .nav-links { gap: 14px; font-size: 13px; }
-  .home-portals-wrap, .home-cards-wrap, .branch-cards-wrap { padding-left: 16px; padding-right: 16px; }
-  .branch-cards.five { grid-template-columns: 1fr; }
+  /* NAV: thu gọn label, chỉ hiện icon + từ khóa ngắn */
+  .top-nav {
+    padding: 0 14px;
+    height: 52px;
+  }
+  .brand { font-size: 15px; gap: 7px; }
+  .brand-seal { width: 28px; height: 28px; }
+  .nav-links { gap: 10px; font-size: 12px; }
+  .nav-links a { gap: 3px; }
+
+  /* HERO */
+  .home-hero { min-height: 260px; }
+  .home-hero-content { padding: 44px 16px 32px; }
+  .page-hero { min-height: 240px; }
+  .page-hero-content { padding: 20px 16px 32px; }
+  .page-hero-content h1 { font-size: clamp(34px, 9vw, 52px); margin: 8px 0 12px; }
+
+  /* LEAD text — đảm bảo dễ đọc trên mobile */
+  .lead { font-size: 15px; }
+
+  /* WRAP padding nhỏ lại */
+  .home-portals-wrap { padding: 0 12px 28px; }
+  .home-cards-wrap { padding: 0 12px 36px; }
+  .branch-cards-wrap { padding: 20px 12px 28px; }
+
+  /* PORTALS: 1 cột, chiều cao hợp lý */
+  .home-portals { gap: 12px; }
+  .portal-card { min-height: 240px; }
+  .portal-content { padding: 20px 20px; }
+  .portal-content h2 { font-size: 30px; }
+  .portal-symbol { font-size: 28px; margin-bottom: 6px; }
+
+  /* NÚT đủ cao 44px */
+  .portal-btn { padding: 12px 22px; font-size: 14px; min-height: 44px; }
+  .branch-btn { padding: 10px 18px; font-size: 13px; min-height: 44px; }
+  .back-btn { padding: 12px 22px; font-size: 14px; min-height: 44px; display: inline-flex; align-items: center; }
+
+  /* BRANCH CARDS: 1 cột trên mobile nhỏ */
+  .branch-cards.five { grid-template-columns: 1fr; gap: 12px; }
+  .branch-cards.three { grid-template-columns: 1fr; gap: 12px; }
+  .branch-card-inner { padding: 22px 16px 18px; gap: 6px; }
+  .branch-icon { width: 72px; height: 72px; }
+  .branch-icon-lg { width: 88px; height: 88px; }
+  .branch-card h2 { font-size: 22px; }
+  .branch-card-lg h2 { font-size: 26px; }
+
+  /* INFO CARDS */
+  .home-cards { gap: 12px; }
+  .info-card-img { height: 70px; }
+
+  /* PRINCIPLES */
+  .principles-bar { padding: 20px 16px; gap: 20px; }
+  .principle { max-width: 100%; }
+
+  /* PLACEHOLDER */
+  .placeholder-page { padding: 48px 16px; }
+  .placeholder-page h1 { font-size: clamp(28px, 8vw, 48px); }
+  .placeholder-btn-row { flex-direction: column; align-items: center; }
+
+  /* FOOTER */
+  .site-footer { padding: 14px 16px; font-size: 12px; text-align: center; }
+  .tamthuc-footer-quote { padding: 18px 16px; font-size: 13px; }
+}
+
+/* Mobile lớn 430px — 2 cột cho branch cards five */
+@media (min-width: 430px) and (max-width: 600px) {
+  .branch-cards.five { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Tablet 601-768px */
+@media (min-width: 601px) and (max-width: 768px) {
+  .top-nav { padding: 0 20px; }
+  .nav-links { gap: 16px; font-size: 13px; }
+  .home-portals-wrap { padding: 0 20px 32px; }
+  .home-cards-wrap { padding: 0 20px 40px; }
+  .branch-cards-wrap { padding: 24px 20px 32px; }
+  .branch-cards.five { grid-template-columns: repeat(3, 1fr); }
   .portal-card { min-height: 260px; }
 }
+
+/* Không để horizontal scroll */
+html, body { overflow-x: hidden; max-width: 100%; }
+img { max-width: 100%; }
+
+/* Tứ Trụ iframe wrapper */
+.tutru-wrapper {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 24px 48px;
+}
+.tutru-frame-box {
+  border: 1px solid var(--gold-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,.5);
+  background: var(--paper-card);
+}
+.tutru-frame-box iframe {
+  width: 100%; border: none; display: block;
+  height: 820px;
+}
+.tutru-fallback {
+  padding: 40px 24px; text-align: center;
+  color: var(--muted); font-size: 14px;
+}
+@media (max-width: 600px) {
+  .tutru-wrapper { padding: 0 12px 32px; }
+  .tutru-frame-box iframe { height: 600px; }
+}
+@media (min-width: 601px) and (max-width: 900px) {
+  .tutru-frame-box iframe { height: 700px; }
+}
+
+/* Placeholder đẹp */
+.placeholder-hero {
+  position: relative;
+  background: linear-gradient(180deg, rgba(20,12,4,.9) 0%, #0d0905 100%);
+  border-bottom: 1px solid var(--gold-soft);
+  text-align: center;
+  padding: 64px 24px 48px;
+}
+.placeholder-icon {
+  font-size: 48px; margin-bottom: 16px; opacity: .7;
+}
+.placeholder-hero h1 { font-size: clamp(34px, 6vw, 64px); margin: 0 0 14px; }
+.placeholder-hero .lead { font-size: clamp(14px, 1.4vw, 17px); }
+.placeholder-body {
+  max-width: 680px; margin: 0 auto;
+  padding: 40px 24px 56px; text-align: center;
+}
+.placeholder-notice {
+  border: 1px solid var(--gold-soft);
+  border-radius: 14px;
+  background: var(--paper-card);
+  padding: 24px 28px;
+  color: var(--muted);
+  font-size: 14px; line-height: 1.7;
+  margin-bottom: 32px;
+  text-align: left;
+}
+.placeholder-notice strong { color: var(--gold); display: block; margin-bottom: 8px; font-size: 15px; }
+.placeholder-btn-row {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+}
+.ph-btn-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(20,14,6,.8);
+  border: 1px solid var(--gold-border);
+  color: var(--gold); font-size: 14px; font-weight: 600;
+  padding: 12px 24px; border-radius: 999px; min-height: 44px;
+  transition: background .2s;
+}
+.ph-btn-primary:hover { background: rgba(214,180,106,.12); }
+.ph-btn-secondary {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--gold-soft);
+  color: var(--muted); font-size: 14px;
+  padding: 12px 20px; border-radius: 999px; min-height: 44px;
+  transition: color .2s;
+}
+.ph-btn-secondary:hover { color: var(--gold); }
