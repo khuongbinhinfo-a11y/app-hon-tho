@@ -2,104 +2,340 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
-const nguThuatApps = [
-  ["Mệnh · Tứ Trụ", "Lập bốn trụ từ ngày giờ sinh, đọc Can Chi, Ngũ hành và Thập thần.", "/nguthuat/menh/tutru", "Đang thử nghiệm"],
-  ["Sơn · Phong thủy an cư", "Bát trạch, Phi tinh, hướng nhà và bố cục không gian.", "/nguthuat/son/phongthu", "Sắp mở"],
-  ["Y · Y học cổ học", "Kiến thức dưỡng sinh, mùa tiết, thân thể và khí huyết tham khảo.", "/nguthuat/y/yhoc", "Sắp mở"],
-  ["Bốc · Mai Hoa", "Lập quẻ tham khảo, học tượng số và cách đọc có giới hạn.", "/nguthuat/boc/maihoa", "Sắp mở"],
-  ["Tướng · Xem tướng", "Quan sát hình tướng theo tinh thần học hỏi, không định kiến con người.", "/nguthuat/tuong/xem-tuong", "Sắp mở"]
-];
-
 function route() {
   return window.location.pathname.replace(/\/$/, "") || "/";
 }
 
-function Shell({ children }: { children: React.ReactNode }) {
+function Shell({ children, activePage }: { children: React.ReactNode; activePage?: string }) {
   return (
-    <main className="app-shell">
+    <div className="app-shell">
       <nav className="top-nav">
-        <a href="/" className="brand">Hồn Thơ App</a>
+        <a href="/" className="brand">
+          <img src="/images/app-home/bg-app-home-hero.webp" className="brand-seal" alt="" aria-hidden="true" />
+          <span>Hồn Thơ App</span>
+        </a>
         <div className="nav-links">
-          <a href="/nguthuat">Ngũ thuật</a>
-          <a href="/tam-thuc">Tam thức</a>
-          <a href="/account">Tài khoản</a>
-          <a href="/credits">Tín dụng</a>
-          <a href="/history">Lịch sử</a>
+          <a href="/nguthuat" className={activePage === "nguthuat" ? "nav-active" : ""}>
+            <span className="nav-icon">☯</span> Ngũ thuật
+          </a>
+          <a href="/tam-thuc" className={activePage === "tamthuc" ? "nav-active" : ""}>
+            <span className="nav-icon">◎</span> Tam thức
+          </a>
+          <a href="/account"><span className="nav-icon">👤</span> Tài khoản</a>
+          <a href="/history"><span className="nav-icon">🕐</span> Lịch sử</a>
         </div>
       </nav>
       {children}
-    </main>
+      <footer className="site-footer">
+        <span className="footer-seal">☯</span>
+        <span>Hồn Thơ – Tri thức cổ học, thực hành có kiểm soát.</span>
+      </footer>
+    </div>
+  );
+}
+
+function Home() {
+  return (
+    <Shell>
+      <div className="home-hero" style={{ backgroundImage: "url('/images/app-home/bg-app-home-hero.webp')" }}>
+        <div className="home-hero-overlay" />
+        <div className="home-hero-content">
+          <div className="ornament">◆</div>
+          <h1>Khu ứng dụng Hồn Thơ</h1>
+          <p className="lead">
+            Không gian ứng dụng của Hồn Thơ – nơi tra cứu, thực hành<br />
+            và tham khảo có kiểm soát, chính xác và hệ thống.
+          </p>
+        </div>
+      </div>
+
+      <div className="home-portals-wrap">
+        <div className="home-portals">
+          <a className="portal-card portal-nguthuat" href="/nguthuat"
+            style={{ backgroundImage: "url('/images/app-home/portal-nguthuat.webp')" }}>
+            <div className="portal-overlay" />
+            <div className="portal-content">
+              <div className="portal-symbol">☯</div>
+              <h2>Ngũ thuật</h2>
+              <div className="portal-divider">◆</div>
+              <p className="portal-sub">Sơn · Y · Mệnh · Bốc · Tướng</p>
+              <div className="portal-divider-line" />
+              <span className="portal-btn">Vào Ngũ thuật <span>›</span></span>
+            </div>
+          </a>
+          <a className="portal-card portal-tamthuc" href="/tam-thuc"
+            style={{ backgroundImage: "url('/images/app-home/portal-tamthuc.webp')" }}>
+            <div className="portal-overlay" />
+            <div className="portal-content">
+              <div className="portal-symbol">◎</div>
+              <h2>Tam thức</h2>
+              <div className="portal-divider">◆</div>
+              <p className="portal-sub">Kỳ Môn · Thái Ất · Lục Nhâm</p>
+              <div className="portal-divider-line" />
+              <span className="portal-btn">Vào Tam thức <span>›</span></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div className="home-cards-wrap">
+        <div className="home-cards">
+          <div className="info-card">
+            <img src="/images/app-home/card-account.webp" className="info-card-img" alt="Tài khoản" />
+            <div className="info-card-body">
+              <h3>Tài khoản</h3>
+              <p>Quản lý thông tin cá nhân, bảo mật và tuỳ chọn sử dụng.</p>
+              <span className="coming-soon">🕐 Sắp ra mắt</span>
+            </div>
+          </div>
+          <div className="info-card">
+            <img src="/images/app-home/card-history.webp" className="info-card-img" alt="Lịch sử" />
+            <div className="info-card-body">
+              <h3>Lịch sử tra cứu</h3>
+              <p>Xem lại các lần tra cứu, thực hành và ghi chú.</p>
+              <span className="coming-soon">🕐 Sắp ra mắt</span>
+            </div>
+          </div>
+          <div className="info-card">
+            <img src="/images/app-home/card-credits.webp" className="info-card-img" alt="Tín dụng" />
+            <div className="info-card-body">
+              <h3>Tín dụng</h3>
+              <p>Quản lý tín dụng, gói dịch vụ và lịch sử giao dịch.</p>
+              <span className="coming-soon">🕐 Sắp ra mắt</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Shell>
+  );
+}
+
+const nguThuatCards = [
+  {
+    key: "son",
+    title: "Sơn",
+    sub: "Phong thủy an cư",
+    desc: "Bát trạch, Phi tinh, hướng nhà và bố cục không gian sống.",
+    icon: "/images/nguthuat/icon-son.webp",
+    href: "/nguthuat/son/phongthu",
+  },
+  {
+    key: "y",
+    title: "Y",
+    sub: "Y học cổ học",
+    desc: "Kiến thức dưỡng sinh, mùa tiết, thân thể và khí huyết tham khảo.",
+    icon: "/images/nguthuat/icon-y.webp",
+    href: "/nguthuat/y/yhoc",
+  },
+  {
+    key: "menh",
+    title: "Mệnh",
+    sub: "Tứ Trụ",
+    desc: "Lập bốn trụ từ ngày giờ sinh, đọc Can Chi, Ngũ hành và Thập thần.",
+    icon: "/images/nguthuat/icon-menh.webp",
+    href: "/nguthuat/menh/tutru",
+  },
+  {
+    key: "boc",
+    title: "Bốc",
+    sub: "Mai Hoa · 64 quẻ",
+    desc: "Lập quẻ tham khảo, học tượng số và cách đọc có giới hạn.",
+    icon: "/images/nguthuat/icon-boc.webp",
+    href: "/nguthuat/boc/maihoa",
+  },
+  {
+    key: "tuong",
+    title: "Tướng",
+    sub: "Xem tướng tham khảo",
+    desc: "Quan sát hình tướng theo tinh thần học hỏi, không định kiến con người.",
+    icon: "/images/nguthuat/icon-tuong.webp",
+    href: "/nguthuat/tuong/xem-tuong",
+  },
+];
+
+function NguThuatHub() {
+  return (
+    <Shell activePage="nguthuat">
+      <div className="page-hero" style={{ backgroundImage: "url('/images/nguthuat/bg-nguthuat-hero.webp')" }}>
+        <div className="page-hero-overlay" />
+        <div className="page-hero-content">
+          <div className="breadcrumb"><a href="/">🏠</a> / <a href="/">Trang chủ</a> / <span>Ngũ thuật</span></div>
+          <div className="ornament">◆</div>
+          <h1>Ngũ thuật</h1>
+          <p className="lead">
+            Cổng ứng dụng thực hành có kiểm soát, hỗ trợ tra cứu, tham khảo<br />
+            và thực hành theo tri thức cổ học.
+          </p>
+        </div>
+      </div>
+
+      <div className="branch-cards-wrap">
+        <div className="branch-cards five">
+          {nguThuatCards.map((card) => (
+            <a key={card.key} className="branch-card" href={card.href}>
+              <div className="branch-card-inner">
+                <img src={card.icon} className="branch-icon" alt={card.title} />
+                <h2>{card.title}</h2>
+                <div className="branch-divider">◆</div>
+                <p className="branch-sub">{card.sub}</p>
+                <p className="branch-desc">{card.desc}</p>
+                <span className="branch-btn">Mở mục <span>›</span></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div className="principles-bar">
+        <div className="principle">
+          <div className="principle-icon">🛡</div>
+          <div>
+            <strong>Tra cứu có kiểm soát</strong>
+            <p>Nội dung được biên soạn chọn lọc, hệ thống kiểm soát đầu vào và đầu ra, hạn chế diễn giải cực đoan.</p>
+          </div>
+        </div>
+        <div className="principle">
+          <div className="principle-icon">📖</div>
+          <div>
+            <strong>Minh bạch nguồn tham khảo</strong>
+            <p>Dựa trên sách cổ, tài liệu học thuật và hệ thống chú giải rõ ràng, có trích dẫn nguồn.</p>
+          </div>
+        </div>
+        <div className="principle">
+          <div className="principle-icon">⚖</div>
+          <div>
+            <strong>Không phán đoán cực đoan</strong>
+            <p>Ứng dụng hỗ trợ tham khảo và thực hành, không thay thế tư duy độc lập và trách nhiệm cá nhân.</p>
+          </div>
+        </div>
+      </div>
+    </Shell>
+  );
+}
+
+const tamThucCards = [
+  {
+    key: "ky-mon",
+    title: "Kỳ Môn",
+    sub: "Kỳ Môn Độn Giáp",
+    desc: "Cục bàn thời không, trạch hướng, lựa chọn thời cơ và phương vị.",
+    icon: "/images/tam-thuc/icon-ky-mon.webp",
+    href: "/tam-thuc/ky-mon",
+  },
+  {
+    key: "thai-at",
+    title: "Thái Ất",
+    sub: "Thái Ất Thần Số",
+    desc: "Dự đoán cát hung, thiên thời, nhân sự và vận hạn theo hệ thống Thái Ất.",
+    icon: "/images/tam-thuc/icon-thai-at.webp",
+    href: "/tam-thuc/thai-at",
+  },
+  {
+    key: "luc-nham",
+    title: "Lục Nhâm",
+    sub: "Đại Lục Nhâm",
+    desc: "Phán đoán sự việc, công việc, hành trình và các tình huống thực tế.",
+    icon: "/images/tam-thuc/icon-luc-nham.webp",
+    href: "/tam-thuc/luc-nham",
+  },
+];
+
+function TamThucHub() {
+  return (
+    <Shell activePage="tamthuc">
+      <div className="page-hero" style={{ backgroundImage: "url('/images/tam-thuc/bg-tamthuc-hero.webp')" }}>
+        <div className="page-hero-overlay" />
+        <div className="page-hero-content">
+          <div className="breadcrumb"><a href="/">🏠</a> / <a href="/">Trang chủ</a> / <span>Tam thức</span></div>
+          <div className="ornament">◆</div>
+          <h1>Tam thức</h1>
+          <p className="lead">
+            Khu vực hệ thống hoá các bộ môn Tam thức – thực dụng, ứng nghiệm,<br />
+            phục vụ tra cứu, tham khảo và ứng dụng thực hành.
+          </p>
+        </div>
+      </div>
+
+      <div className="branch-cards-wrap">
+        <div className="branch-cards three">
+          {tamThucCards.map((card) => (
+            <a key={card.key} className="branch-card branch-card-lg" href={card.href}>
+              <div className="branch-card-inner">
+                <img src={card.icon} className="branch-icon branch-icon-lg" alt={card.title} />
+                <h2>{card.title}</h2>
+                <div className="branch-divider">◆</div>
+                <p className="branch-desc">{card.desc}</p>
+                <span className="branch-btn">Khám phá <span>›</span></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div className="principles-bar">
+        <div className="principle">
+          <div className="principle-icon">📚</div>
+          <div>
+            <strong>Tham khảo có hệ thống</strong>
+            <p>Tổng hợp kiến thức cổ học một cách có cấu trúc, dễ tra cứu và đối chiếu.</p>
+          </div>
+        </div>
+        <div className="principle">
+          <div className="principle-icon">✒</div>
+          <div>
+            <strong>Giữ ngôn từ thận trọng</strong>
+            <p>Không khẳng định tuyệt đối, ưu tiên cách diễn giải khách quan.</p>
+          </div>
+        </div>
+        <div className="principle">
+          <div className="principle-icon">🧘</div>
+          <div>
+            <strong>Ưu tiên học hiểu trước khi ứng dụng</strong>
+            <p>Hiểu đúng bản chất, vận dụng đúng bối cảnh, tránh mê tín và lệ thuộc.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="tamthuc-footer-quote">
+        <span className="lotus">🪷</span>
+        <em>Học để hiểu đạo lý, dùng để thuận tự nhiên, hành sự có căn cứ, tâm an mà trí sáng.</em>
+        <span className="lotus">🪷</span>
+      </div>
+    </Shell>
+  );
+}
+
+function PlaceholderPage({ title, parent, parentHref }: { title: string; parent: string; parentHref: string }) {
+  return (
+    <Shell>
+      <div className="placeholder-page">
+        <div className="breadcrumb"><a href="/">🏠</a> / <a href={parentHref}>{parent}</a> / <span>{title}</span></div>
+        <div className="ornament">◆</div>
+        <h1>{title}</h1>
+        <p className="lead">Ứng dụng đang được chuẩn bị. Đây là trang giữ chỗ, nội dung thực hành sẽ được đưa lên sau.</p>
+        <p className="muted-note">Không thay thế tư duy độc lập · Tham khảo có kiểm soát · Thực hành có hệ thống</p>
+        <a className="back-btn" href={parentHref}>← Quay lại {parent}</a>
+      </div>
+    </Shell>
   );
 }
 
 function App() {
   const path = route();
   if (path === "/nguthuat") return <NguThuatHub />;
-  if (path === "/tam-thuc") return <SimplePage title="Khu ứng dụng Tam thức" subtitle="Khu này dành cho các công cụ thực hành, quan sát và tra cứu sẽ phát triển sau." />;
-  if (path === "/nguthuat/menh/tutru") return <SimplePage title="Tứ Trụ" subtitle="Route chính thức để gắn mini-app Tứ Trụ hiện tại vào khu app chung." />;
-  if (path === "/account") return <SimplePage title="Tài khoản" subtitle="Khu hồ sơ người dùng, đăng nhập và thông tin cá nhân." />;
-  if (path === "/credits") return <SimplePage title="Tín dụng" subtitle="Theo dõi số dư, yêu cầu nạp và lịch sử sử dụng tín dụng." />;
-  if (path === "/history") return <SimplePage title="Lịch sử tra cứu" subtitle="Lưu và xem lại các bản đọc đã tạo." />;
-  if (path === "/admin") return <SimplePage title="Quản trị" subtitle="Duyệt chuyển khoản, kiểm tra người dùng và theo dõi log." />;
+  if (path === "/tam-thuc") return <TamThucHub />;
+  if (path === "/nguthuat/menh/tutru") return <PlaceholderPage title="Mệnh · Tứ Trụ" parent="Ngũ thuật" parentHref="/nguthuat" />;
+  if (path === "/nguthuat/son/phongthu") return <PlaceholderPage title="Sơn · Phong thủy an cư" parent="Ngũ thuật" parentHref="/nguthuat" />;
+  if (path === "/nguthuat/y/yhoc") return <PlaceholderPage title="Y · Y học cổ học" parent="Ngũ thuật" parentHref="/nguthuat" />;
+  if (path === "/nguthuat/boc/maihoa") return <PlaceholderPage title="Bốc · Mai Hoa" parent="Ngũ thuật" parentHref="/nguthuat" />;
+  if (path === "/nguthuat/tuong/xem-tuong") return <PlaceholderPage title="Tướng · Xem tướng" parent="Ngũ thuật" parentHref="/nguthuat" />;
+  if (path === "/tam-thuc/ky-mon") return <PlaceholderPage title="Kỳ Môn Độn Giáp" parent="Tam thức" parentHref="/tam-thuc" />;
+  if (path === "/tam-thuc/thai-at") return <PlaceholderPage title="Thái Ất Thần Số" parent="Tam thức" parentHref="/tam-thuc" />;
+  if (path === "/tam-thuc/luc-nham") return <PlaceholderPage title="Đại Lục Nhâm" parent="Tam thức" parentHref="/tam-thuc" />;
+  if (path === "/account") return <PlaceholderPage title="Tài khoản" parent="Trang chủ" parentHref="/" />;
+  if (path === "/history") return <PlaceholderPage title="Lịch sử tra cứu" parent="Trang chủ" parentHref="/" />;
+  if (path === "/admin") return <PlaceholderPage title="Quản trị" parent="Trang chủ" parentHref="/" />;
   return <Home />;
-}
-
-function Home() {
-  return (
-    <Shell>
-      <section className="hero">
-        <p className="eyebrow">app.hontho.com</p>
-        <h1>Khu ứng dụng Hồn Thơ</h1>
-        <p className="lead">Một cổng chung cho Ngũ thuật, Tam thức, tài khoản, tín dụng và lịch sử tra cứu.</p>
-        <div className="hero-actions">
-          <a className="seal-button" href="/nguthuat">Mở Ngũ thuật</a>
-          <a className="ghost-button" href="/tam-thuc">Mở Tam thức</a>
-        </div>
-      </section>
-      <section className="grid two">
-        <Feature title="Ngũ thuật" href="/nguthuat" text="Sơn · Y · Mệnh · Bốc · Tướng. Năm cửa ứng dụng được gom vào cùng một khu quản lý." />
-        <Feature title="Tam thức" href="/tam-thuc" text="Khu thực hành và tra cứu sẽ mở rộng sau, dùng chung tài khoản và tín dụng." />
-      </section>
-    </Shell>
-  );
-}
-
-function NguThuatHub() {
-  return (
-    <Shell>
-      <section className="section-head">
-        <p className="eyebrow">Sơn · Y · Mệnh · Bốc · Tướng</p>
-        <h1>Ngũ thuật ứng dụng</h1>
-        <p className="lead">Chọn một công cụ để bắt đầu. Tất cả dùng chung tài khoản, tín dụng và lịch sử trong khu app.</p>
-      </section>
-      <section className="grid cards">
-        {nguThuatApps.map(([title, subtitle, href, status]) => (
-          <a className="app-card" href={href} key={title}>
-            <span>{status}</span>
-            <h2>{title}</h2>
-            <p>{subtitle}</p>
-          </a>
-        ))}
-      </section>
-    </Shell>
-  );
-}
-
-function SimplePage({ title, subtitle }: { title: string; subtitle: string }) {
-  return (
-    <Shell>
-      <section className="section-head">
-        <p className="eyebrow">Đang chuẩn bị</p>
-        <h1>{title}</h1>
-        <p className="lead">{subtitle}</p>
-        <div className="notice">Đây là khung route để sau này gắn tính năng thật vào.</div>
-      </section>
-    </Shell>
-  );
-}
-
-function Feature({ title, text, href }: { title: string; text: string; href: string }) {
-  return <a className="feature" href={href}><h2>{title}</h2><p>{text}</p></a>;
 }
 
 createRoot(document.getElementById("root")!).render(<App />);
