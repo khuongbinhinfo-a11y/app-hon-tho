@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
@@ -7,14 +7,16 @@ function route() {
 }
 
 function Shell({ children, activePage }: { children: React.ReactNode; activePage?: string }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="app-shell">
       <nav className="top-nav">
         <a href="/" className="brand">
           <img src="/images/app-home/bg-app-home-hero.webp" className="brand-seal" alt="" aria-hidden="true" />
-          <span>Hồn Thơ App</span>
+          <span className="brand-full">Cổ học App</span>
+          <span className="brand-short">Cổ học</span>
         </a>
-        <div className="nav-links">
+        <div className="nav-links nav-desktop">
           <a href="/nguthuat" className={activePage === "nguthuat" ? "nav-active" : ""}>
             <span className="nav-icon">☯</span> Ngũ thuật
           </a>
@@ -24,11 +26,33 @@ function Shell({ children, activePage }: { children: React.ReactNode; activePage
           <a href="/account"><span className="nav-icon">👤</span> Tài khoản</a>
           <a href="/history"><span className="nav-icon">🕐</span> Lịch sử</a>
         </div>
+        <button
+          className="nav-hamburger"
+          aria-label="Mở menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <span className="ham-bar" />
+          <span className="ham-bar" />
+          <span className="ham-bar" />
+        </button>
       </nav>
+      {menuOpen && (
+        <div className="nav-dropdown" onClick={() => setMenuOpen(false)}>
+          <a href="/nguthuat" className={activePage === "nguthuat" ? "nav-active" : ""}>
+            <span className="nav-icon">☯</span> Ngũ thuật
+          </a>
+          <a href="/tam-thuc" className={activePage === "tamthuc" ? "nav-active" : ""}>
+            <span className="nav-icon">◎</span> Tam thức
+          </a>
+          <a href="/account"><span className="nav-icon">👤</span> Tài khoản</a>
+          <a href="/history"><span className="nav-icon">🕐</span> Lịch sử</a>
+        </div>
+      )}
       {children}
       <footer className="site-footer">
         <span className="footer-seal">☯</span>
-        <span>Hồn Thơ – Tri thức cổ học, thực hành có kiểm soát.</span>
+        <span>Cổ học – Tra cứu và thực hành có kiểm soát.</span>
       </footer>
     </div>
   );
@@ -41,10 +65,10 @@ function Home() {
         <div className="home-hero-overlay" />
         <div className="home-hero-content">
           <div className="ornament">◆</div>
-          <h1>Khu ứng dụng Hồn Thơ</h1>
+          <h1>Khu ứng dụng Cổ học</h1>
           <p className="lead">
-            Không gian ứng dụng của Hồn Thơ – nơi tra cứu, thực hành<br />
-            và tham khảo có kiểm soát, chính xác và hệ thống.
+            Không gian ứng dụng cổ học – nơi tra cứu, thực hành<br />
+            và tham khảo có kiểm soát, thận trọng và hệ thống.
           </p>
         </div>
       </div>
