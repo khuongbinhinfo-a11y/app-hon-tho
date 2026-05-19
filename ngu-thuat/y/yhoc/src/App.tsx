@@ -1,4 +1,9 @@
 import React, { useState, useCallback } from 'react';
+import imgHeroBg from './assets/images/yhoc-hero-bg.png';
+import imgCardAmduong from './assets/images/yhoc-card-amduong.png';
+import imgCardTangphu from './assets/images/yhoc-card-tangphu.png';
+import imgCardKhihuyet from './assets/images/yhoc-card-khihuyet.png';
+import imgCardDuongsinh from './assets/images/yhoc-card-duongsinh.png';
 import { interpretYhocAnswers, getQuestionLabel, type YhocAnswers } from './engine/yhocEngine';
 import { QUESTIONS } from './data/yhoc/questions';
 import { GLOSSARY } from './data/yhoc/glossary';
@@ -33,10 +38,10 @@ const CONFIDENCE_LABEL: Record<string, string> = {
 };
 
 const FEATURE_CARDS = [
-  { icon: '☯', title: 'Âm dương', text: 'Nhận diện xu hướng thiên hàn, thiên nhiệt, thiếu nghỉ ngơi hoặc hao tổn năng lượng theo ngôn ngữ cổ học.' },
-  { icon: '🌿', title: 'Tạng phủ', text: 'Học hiểu Can, Tâm, Tỳ, Phế, Thận trong hệ quy chiếu Đông y, không đồng nhất máy móc với cơ quan hiện đại.' },
-  { icon: '💧', title: 'Khí huyết', text: 'Gợi ý xu hướng như khí hư, huyết hư, khí trệ, đàm thấp, âm hư, dương hư ở mức tham khảo.' },
-  { icon: '🍃', title: 'Dưỡng sinh nhẹ', text: 'Đề xuất ngủ nghỉ, ăn uống, vận động, hơi thở và điều hòa cảm xúc, không thuốc, không liều lượng.' },
+  { img: imgCardAmduong, title: 'Âm dương', text: 'Nhận diện xu hướng thiên hàn, thiên nhiệt, thiếu nghỉ ngơi hoặc hao tổn năng lượng theo ngôn ngữ cổ học.' },
+  { img: imgCardTangphu, title: 'Tạng phủ', text: 'Học hiểu Can, Tâm, Tỳ, Phế, Thận trong hệ quy chiếu Đông y, không đồng nhất máy móc với cơ quan hiện đại.' },
+  { img: imgCardKhihuyet, title: 'Khí huyết', text: 'Gợi ý xu hướng như khí hư, huyết hư, khí trệ, đàm thấp, âm hư, dương hư ở mức tham khảo.' },
+  { img: imgCardDuongsinh, title: 'Dưỡng sinh nhẹ', text: 'Đề xuất ngủ nghỉ, ăn uống, vận động, hơi thở và điều hòa cảm xúc, không thuốc, không liều lượng.' },
 ];
 
 const SAFETY_RULES = [
@@ -136,7 +141,7 @@ function QuestionItem({
 
 function HeroScreen({ onNext, onSafety }: { onNext: () => void; onSafety: () => void }) {
   return (
-    <div className="hero-wrap">
+    <div className="hero-wrap" style={{ backgroundImage: `url(${imgHeroBg})` }}>
       <div className="hero-glow" />
       <div className="hero-grid">
         <section className="hero-left">
@@ -184,7 +189,7 @@ function HeroScreen({ onNext, onSafety }: { onNext: () => void; onSafety: () => 
       <div className="feature-grid">
         {FEATURE_CARDS.map((c) => (
           <div key={c.title} className="feature-card">
-            <span className="feature-icon">{c.icon}</span>
+            <img src={c.img} alt={c.title} className="feature-img" />
             <h3 className="feature-title">{c.title}</h3>
             <p className="feature-text">{c.text}</p>
           </div>
