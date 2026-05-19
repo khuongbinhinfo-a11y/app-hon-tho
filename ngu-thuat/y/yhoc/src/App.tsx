@@ -141,7 +141,7 @@ function QuestionItem({
 
 function HeroScreen({ onNext, onSafety }: { onNext: () => void; onSafety: () => void }) {
   return (
-    <div className="hero-wrap" style={{ backgroundImage: `url(${imgHeroBg})` }}>
+    <div className="hero-wrap">
       <div className="hero-glow" />
       <div className="hero-grid">
         <section className="hero-left">
@@ -159,6 +159,9 @@ function HeroScreen({ onNext, onSafety }: { onNext: () => void; onSafety: () => 
         </section>
 
         <section className="hero-right">
+          <div className="hero-visual-card">
+            <img src={imgHeroBg} alt="Y học cổ học tham khảo" className="hero-visual-img" />
+          </div>
           <div className="mock-card">
             <div className="mock-card-header">
               <div>
@@ -189,7 +192,9 @@ function HeroScreen({ onNext, onSafety }: { onNext: () => void; onSafety: () => 
       <div className="feature-grid">
         {FEATURE_CARDS.map((c) => (
           <div key={c.title} className="feature-card">
-            <img src={c.img} alt={c.title} className="feature-img" />
+            <div className="feature-img-wrap">
+              <img src={c.img} alt={c.title} className="feature-img" />
+            </div>
             <h3 className="feature-title">{c.title}</h3>
             <p className="feature-text">{c.text}</p>
           </div>
