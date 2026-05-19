@@ -244,6 +244,7 @@ interface NguThuatBranchApp {
   href: string;
   cta: string;
   note?: string;
+  status?: "ready" | "comingSoon";
 }
 
 interface NguThuatBranchLandingConfig {
@@ -314,6 +315,15 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
         cta: "Mở Tứ Trụ",
         note: "App con full page",
       },
+      {
+        key: "tu-vi",
+        title: "Tử Vi",
+        desc: "Ứng dụng Tử Vi sẽ được chuẩn bị sau, phục vụ học hiểu hệ thống cung, sao và vận hạn theo hướng tham khảo.",
+        href: "/nguthuat/menh/tu-vi",
+        cta: "Sắp mở",
+        note: "Đang chuẩn bị",
+        status: "comingSoon",
+      },
     ],
   },
   "/nguthuat/tuong": {
@@ -350,16 +360,23 @@ function NguThuatBranchLanding({ cfg }: { cfg: NguThuatBranchLandingConfig }) {
       </div>
 
       <div className="branch-cards-wrap">
-        <div className="branch-cards branch-cards-gateway">
+        <div className={`branch-cards branch-cards-gateway${cfg.apps.length > 1 ? " branch-cards-gateway-two" : ""}`}>
           {cfg.apps.map((app) => (
-            <a key={app.key} className="branch-card branch-card-gateway" href={app.href}>
+            <a
+              key={app.key}
+              className={`branch-card branch-card-gateway${app.status === "comingSoon" ? " branch-card-soon" : ""}`}
+              href={app.href}
+            >
               <div className="branch-card-inner">
                 <img src={cfg.icon} className="branch-icon" alt={cfg.title} />
                 <h2>{app.title}</h2>
                 <div className="branch-divider">◆</div>
                 <p className="branch-desc">{app.desc}</p>
+                {app.status === "comingSoon" ? <p className="branch-gateway-state">Đang chuẩn bị</p> : null}
                 {app.note ? <p className="branch-gateway-note">{app.note}</p> : null}
-                <span className="branch-btn">{app.cta} <span>›</span></span>
+                <span className={`branch-btn${app.status === "comingSoon" ? " branch-btn-soon" : ""}`}>
+                  {app.cta} <span>›</span>
+                </span>
               </div>
             </a>
           ))}
@@ -522,9 +539,7 @@ function TuTruRedirect() {
 }
 
 function YhocRedirect() {
-  React.useEffect(() => {
-    window.location.replace('/nguthuat/y/yhoc/');
-  }, []);
+  window.location.replace('/nguthuat/y/yhoc/');
   return null;
 }
 
@@ -558,6 +573,16 @@ const PLACEHOLDER_ROUTES: Record<string, PlaceholderConfig> = {
     parentHref: "/nguthuat",
     grandParent: "Trang chủ",
     grandParentHref: "/",
+  },
+  "/nguthuat/menh/tu-vi": {
+    title: "Tử Vi - Đang chuẩn bị",
+    subtitle: "Tử Vi · Cung sao · Tham khảo",
+    icon: "✦",
+    desc: "Ứng dụng Tử Vi đang được chuẩn bị, phục vụ học hiểu hệ thống cung, sao và vận hạn theo hướng tham khảo. Nội dung không dùng để kết luận số phận tuyệt đối.",
+    parent: "Mệnh",
+    parentHref: "/nguthuat/menh",
+    grandParent: "Ngũ thuật",
+    grandParentHref: "/nguthuat",
   },
   "/nguthuat/tuong/xem-tuong": {
     title: "Tướng - Xem tướng tham khảo",
