@@ -157,7 +157,7 @@ const nguThuatCards = [
     sub: "Tứ Trụ",
     desc: "Lập bốn trụ từ ngày giờ sinh, đọc Can Chi, Ngũ hành và Thập thần.",
     icon: "/images/nguthuat/icon-menh.webp",
-    href: "/nguthuat/menh/tutru",
+    href: "/nguthuat/menh/tutru/",
   },
   {
     key: "boc",
@@ -375,49 +375,11 @@ function PlaceholderPage({ cfg }: { cfg: PlaceholderConfig }) {
   );
 }
 
-function TuTruPage() {
-  return (
-    <Shell activePage="nguthuat">
-      <div className="page-hero" style={{ backgroundImage: "url('/images/nguthuat/bg-nguthuat-hero.webp')" }}>
-        <div className="page-hero-overlay" />
-        <div className="page-hero-content">
-          <div className="breadcrumb">
-            <a href="/">🏠</a>{" / "}
-            <a href="/">Trang chủ</a>{" / "}
-            <a href="/nguthuat">Ngũ thuật</a>{" / "}
-            <a href="/nguthuat">Mệnh</a>{" / "}
-            <span>Tứ Trụ</span>
-          </div>
-          <div className="ornament">◆</div>
-          <h1>Tứ Trụ</h1>
-          <p className="lead">
-            Ứng dụng tham khảo lá số Tứ Trụ, hỗ trợ tra cứu có kiểm soát và diễn giải thận trọng.
-          </p>
-        </div>
-      </div>
-      <div className="tutru-wrapper">
-        <div className="tutru-frame-box">
-          <iframe
-            src="/apps/tutru/index.html"
-            title="Tứ Trụ App"
-            allowFullScreen
-          >
-            <div className="tutru-fallback">
-              Trình duyệt không hỗ trợ hiển thị ứng dụng nhúng.
-              <br />
-              <a className="ph-btn-primary" style={{ marginTop: "16px", display: "inline-flex" }} href="/apps/tutru/index.html" target="_blank" rel="noreferrer">
-                Mở Tứ Trụ trong tab mới →
-              </a>
-            </div>
-          </iframe>
-        </div>
-        <div style={{ marginTop: "24px" }} className="placeholder-btn-row">
-          <a className="ph-btn-primary" href="/nguthuat">← Quay về Ngũ thuật</a>
-          <a className="ph-btn-secondary" href="/">Về trang chủ App</a>
-        </div>
-      </div>
-    </Shell>
-  );
+function TuTruRedirect() {
+  React.useEffect(() => {
+    window.location.replace('/nguthuat/menh/tutru/');
+  }, []);
+  return null;
 }
 
 const PLACEHOLDER_ROUTES: Record<string, PlaceholderConfig> = {
@@ -513,7 +475,7 @@ function App() {
   const path = route();
   if (path === "/nguthuat") return <NguThuatHub />;
   if (path === "/tam-thuc") return <TamThucHub />;
-  if (path === "/nguthuat/menh/tutru") return <TuTruPage />;
+  if (path === "/nguthuat/menh/tutru") return <TuTruRedirect />;
   const ph = PLACEHOLDER_ROUTES[path];
   if (ph) return <PlaceholderPage cfg={ph} />;
   return <Home />;
