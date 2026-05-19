@@ -281,7 +281,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
         key: "y-hoc",
         title: "Y học cổ học",
         desc: "Mở hệ thống tham khảo dưỡng sinh, tiết khí và cân bằng cơ thể theo góc nhìn y học cổ truyền.",
-        href: "/nguthuat/y/yhoc",
+        href: "/nguthuat/y/yhoc/",
         cta: "Mở Y học",
       },
     ],
@@ -538,27 +538,12 @@ function TuTruRedirect() {
   return null;
 }
 
-function YhocRedirect() {
-  window.location.replace('/nguthuat/y/yhoc/');
-  return null;
-}
-
 const PLACEHOLDER_ROUTES: Record<string, PlaceholderConfig> = {
   "/nguthuat/son/phongthu": {
     title: "Sơn - Phong thủy an cư",
     subtitle: "Phong thủy · Bát trạch · Phi tinh",
     icon: "🏔",
     desc: "Tra cứu phong thủy an cư, Bát trạch, Phi tinh, hướng nhà và bố cục không gian sống theo tri thức cổ học.",
-    parent: "Ngũ thuật",
-    parentHref: "/nguthuat",
-    grandParent: "Trang chủ",
-    grandParentHref: "/",
-  },
-  "/nguthuat/y/yhoc": {
-    title: "Y - Y học cổ học",
-    subtitle: "Dưỡng sinh · Khí huyết · Mùa tiết",
-    icon: "⚕",
-    desc: "Tra cứu kiến thức dưỡng sinh, mùa tiết, thân thể và khí huyết theo góc nhìn y học cổ truyền. Chỉ mang tính tham khảo.",
     parent: "Ngũ thuật",
     parentHref: "/nguthuat",
     grandParent: "Trang chủ",
@@ -649,10 +634,19 @@ function App() {
   const nguThuatLanding = NGU_THUAT_BRANCH_LANDINGS[path];
   if (nguThuatLanding) return <NguThuatBranchLanding cfg={nguThuatLanding} />;
   if (path === "/nguthuat/menh/tutru") return <TuTruRedirect />;
-  if (path === "/nguthuat/y/yhoc") return <YhocRedirect />;
   const ph = PLACEHOLDER_ROUTES[path];
   if (ph) return <PlaceholderPage cfg={ph} />;
   return <Home />;
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+const staticAppRedirects: Record<string, string> = {
+  "/nguthuat/y/yhoc": "/nguthuat/y/yhoc/",
+};
+
+const staticTarget = staticAppRedirects[window.location.pathname];
+
+if (staticTarget) {
+  window.location.replace(staticTarget);
+} else {
+  createRoot(document.getElementById("root")!).render(<App />);
+}
