@@ -281,7 +281,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
         key: "y-hoc",
         title: "Y học cổ học",
         desc: "Mở hệ thống tham khảo dưỡng sinh, tiết khí và cân bằng cơ thể theo góc nhìn y học cổ truyền.",
-        href: "/nguthuat/y/yhoc/",
+        href: "/nguthuat/y/yhoc/index.html",
         cta: "Mở Y học",
       },
     ],
@@ -640,7 +640,8 @@ function App() {
 }
 
 const staticAppRedirects: Record<string, string> = {
-  "/nguthuat/y/yhoc": "/nguthuat/y/yhoc/",
+  "/nguthuat/y/yhoc": "/nguthuat/y/yhoc/index.html",
+  "/nguthuat/y/yhoc/": "/nguthuat/y/yhoc/index.html",
 };
 
 const staticTarget = staticAppRedirects[window.location.pathname];
