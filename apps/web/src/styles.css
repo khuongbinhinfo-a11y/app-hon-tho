@@ -302,6 +302,21 @@ a { color: inherit; text-decoration: none; }
   text-align: left;
   align-items: flex-start;
 }
+.branch-gateway-art {
+  width: 100%;
+  margin-bottom: 6px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--gold-soft);
+  background: rgba(28, 18, 8, .72);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .28);
+}
+.branch-gateway-art-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
 .branch-card-soon {
   border-color: rgba(214,180,106,.3);
 }

@@ -180,7 +180,7 @@ const nguThuatCards = [
 function NguThuatHub() {
   return (
     <Shell activePage="nguthuat">
-      <div className="page-hero" style={{ backgroundImage: "url('/images/nguthuat/bg-nguthuat-hero.webp')" }}>
+      <div className="page-hero" style={{ backgroundImage: `url('${cfg.heroImage}')` }}>
         <div className="page-hero-overlay" />
         <div className="page-hero-content">
           <div className="breadcrumb"><a href="/">🏠</a> / <a href="/">Trang chủ</a> / <span>Ngũ thuật</span></div>
@@ -243,6 +243,7 @@ interface NguThuatBranchApp {
   desc: string;
   href: string;
   cta: string;
+  image?: string;
   note?: string;
   status?: "ready" | "comingSoon";
 }
@@ -251,6 +252,7 @@ interface NguThuatBranchLandingConfig {
   title: string;
   subtitle: string;
   desc: string;
+  heroImage: string;
   icon: string;
   apps: NguThuatBranchApp[];
 }
@@ -260,6 +262,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
     title: "Sơn",
     subtitle: "Phong thủy an cư",
     desc: "Cổng nhánh Sơn tập trung vào phong thủy an cư, hướng nhà, Bát trạch và bố cục không gian sống.",
+    heroImage: "/images/nguthuat/son/ui-son-hero-bg-phong-thuy.png",
     icon: "/images/nguthuat/icon-son.webp",
     apps: [
       {
@@ -268,6 +271,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
         desc: "Tra cứu hướng nhà, Đông Tây tứ mệnh, Bát trạch và phân vùng bố trí không gian theo tri thức cổ học.",
         href: "/nguthuat/son/phongthu",
         cta: "Mở Phong thủy",
+        image: "/images/nguthuat/son/ui-son-phong-thuy-an-cu-card.png",
       },
     ],
   },
@@ -275,14 +279,16 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
     title: "Y",
     subtitle: "Y học cổ học",
     desc: "Cổng nhánh Y phục vụ tham khảo dưỡng sinh, tiết khí, khí huyết và cách ứng dụng thận trọng trong đời sống.",
+    heroImage: "/images/nguthuat/y/ui-y-hero-bg-yhoc.png",
     icon: "/images/nguthuat/icon-y.webp",
     apps: [
       {
         key: "y-hoc",
         title: "Y học cổ học",
         desc: "Mở hệ thống tham khảo dưỡng sinh, tiết khí và cân bằng cơ thể theo góc nhìn y học cổ truyền.",
-        href: "/nguthuat/y/yhoc/index.html",
+        href: "/nguthuat/y/yhoc",
         cta: "Mở Y học",
+        image: "/images/nguthuat/y/ui-y-yhoc-co-hoc-card.png",
       },
     ],
   },
@@ -290,6 +296,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
     title: "Bốc",
     subtitle: "Mai Hoa Dịch số",
     desc: "Cổng nhánh Bốc hướng đến lập quẻ tham khảo, học cách đọc quẻ và đặt giới hạn diễn giải rõ ràng.",
+    heroImage: "/images/nguthuat/boc/ui-boc-hero-bg-maihoa.png",
     icon: "/images/nguthuat/icon-boc.webp",
     apps: [
       {
@@ -298,6 +305,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
         desc: "Vào công cụ lập quẻ và tham khảo cách đọc 64 quẻ theo hướng học hiểu, không khẳng định tuyệt đối.",
         href: "/nguthuat/boc/maihoa",
         cta: "Mở Mai Hoa",
+        image: "/images/nguthuat/boc/ui-boc-mai-hoa-card.png",
       },
     ],
   },
@@ -305,6 +313,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
     title: "Mệnh",
     subtitle: "Can Chi và cấu trúc mệnh",
     desc: "Cổng nhánh Mệnh là nơi quy tụ các công cụ đọc mệnh theo dữ liệu ngày giờ sinh và hệ thống Can Chi.",
+    heroImage: "/images/nguthuat/menh/ui-menh-hero-bg-luan-menh.png",
     icon: "/images/nguthuat/icon-menh.webp",
     apps: [
       {
@@ -313,6 +322,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
         desc: "Lưu ý: Tứ Trụ là app con full page, mở trong không gian riêng để tra cứu chi tiết.",
         href: "/nguthuat/menh/tutru/",
         cta: "Mở Tứ Trụ",
+        image: "/images/nguthuat/menh/ui-menh-tu-tru-card.png",
         note: "App con full page",
       },
       {
@@ -321,6 +331,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
         desc: "Ứng dụng Tử Vi sẽ được chuẩn bị sau, phục vụ học hiểu hệ thống cung, sao và vận hạn theo hướng tham khảo.",
         href: "/nguthuat/menh/tu-vi",
         cta: "Sắp mở",
+        image: "/images/nguthuat/menh/ui-menh-tu-vi-card.png",
         note: "Đang chuẩn bị",
         status: "comingSoon",
       },
@@ -330,6 +341,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
     title: "Tướng",
     subtitle: "Quan sát và học hiểu",
     desc: "Cổng nhánh Tướng tập trung vào hướng học quan sát, tôn trọng bối cảnh và tránh định kiến với con người.",
+    heroImage: "/images/nguthuat/tuong/ui-tuong-hero-bg-xem-tuong.png",
     icon: "/images/nguthuat/icon-tuong.webp",
     apps: [
       {
@@ -338,6 +350,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
         desc: "Vào mục học tập và tham khảo cách quan sát hình tướng theo tinh thần thận trọng và có giới hạn.",
         href: "/nguthuat/tuong/xem-tuong",
         cta: "Mở Xem tướng",
+        image: "/images/nguthuat/tuong/ui-tuong-xem-tuong-card.png",
       },
     ],
   },
@@ -346,7 +359,7 @@ const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
 function NguThuatBranchLanding({ cfg }: { cfg: NguThuatBranchLandingConfig }) {
   return (
     <Shell activePage="nguthuat">
-      <div className="page-hero" style={{ backgroundImage: "url('/images/nguthuat/bg-nguthuat-hero.webp')" }}>
+      <div className="page-hero" style={{ backgroundImage: `url('${cfg.heroImage}')` }}>
         <div className="page-hero-overlay" />
         <div className="page-hero-content">
           <div className="breadcrumb">
@@ -368,7 +381,13 @@ function NguThuatBranchLanding({ cfg }: { cfg: NguThuatBranchLandingConfig }) {
               href={app.href}
             >
               <div className="branch-card-inner">
-                <img src={cfg.icon} className="branch-icon" alt={cfg.title} />
+                {app.image ? (
+                  <div className="branch-gateway-art">
+                    <img src={app.image} className="branch-gateway-art-img" alt={app.title} />
+                  </div>
+                ) : (
+                  <img src={cfg.icon} className="branch-icon" alt={cfg.title} />
+                )}
                 <h2>{app.title}</h2>
                 <div className="branch-divider">◆</div>
                 <p className="branch-desc">{app.desc}</p>
