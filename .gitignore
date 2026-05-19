@@ -11,3 +11,5 @@ logs
 screenshots
 .vite
 .cache
+$RECYCLE.BIN/
+**/$RECYCLE.BIN/
