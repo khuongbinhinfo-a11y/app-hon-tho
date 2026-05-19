@@ -290,6 +290,25 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(180deg, #c9a24e, #7a4e16);
   color: var(--ink);
 }
+.branch-cards-gateway {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 860px;
+}
+.branch-card-gateway .branch-card-inner {
+  text-align: left;
+  align-items: flex-start;
+}
+.branch-gateway-note {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: .04em;
+  border: 1px solid var(--gold-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.branch-landing-actions {
+  padding-top: 0;
+}
 
 /* ── PRINCIPLES BAR ── */
 .principles-bar {
@@ -342,6 +361,7 @@ a { color: inherit; text-decoration: none; }
   .home-cards { grid-template-columns: 1fr; }
   .branch-cards.five { grid-template-columns: repeat(2, 1fr); }
   .branch-cards.three { grid-template-columns: 1fr; }
+  .branch-card-gateway .branch-card-inner { text-align: center; align-items: center; }
   .principles-bar { flex-direction: column; align-items: center; }
   .portal-card { min-height: 280px; }
 }
