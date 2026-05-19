@@ -11,3 +11,6 @@ logs
 screenshots
 .vite
 .cache
+
+# Windows recycle bin
+$RECYCLE.BIN/
