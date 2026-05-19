@@ -141,7 +141,7 @@ const nguThuatCards = [
     sub: "Phong thủy an cư",
     desc: "Bát trạch, Phi tinh, hướng nhà và bố cục không gian sống.",
     icon: "/images/nguthuat/icon-son.webp",
-    href: "/nguthuat/son/phongthu",
+    href: "/nguthuat/son",
   },
   {
     key: "y",
@@ -149,7 +149,7 @@ const nguThuatCards = [
     sub: "Y học cổ học",
     desc: "Kiến thức dưỡng sinh, mùa tiết, thân thể và khí huyết tham khảo.",
     icon: "/images/nguthuat/icon-y.webp",
-    href: "/nguthuat/y/yhoc",
+    href: "/nguthuat/y",
   },
   {
     key: "menh",
@@ -157,7 +157,7 @@ const nguThuatCards = [
     sub: "Tứ Trụ",
     desc: "Lập bốn trụ từ ngày giờ sinh, đọc Can Chi, Ngũ hành và Thập thần.",
     icon: "/images/nguthuat/icon-menh.webp",
-    href: "/nguthuat/menh/tutru/",
+    href: "/nguthuat/menh",
   },
   {
     key: "boc",
@@ -165,7 +165,7 @@ const nguThuatCards = [
     sub: "Mai Hoa · 64 quẻ",
     desc: "Lập quẻ tham khảo, học tượng số và cách đọc có giới hạn.",
     icon: "/images/nguthuat/icon-boc.webp",
-    href: "/nguthuat/boc/maihoa",
+    href: "/nguthuat/boc",
   },
   {
     key: "tuong",
@@ -173,14 +173,14 @@ const nguThuatCards = [
     sub: "Xem tướng tham khảo",
     desc: "Quan sát hình tướng theo tinh thần học hỏi, không định kiến con người.",
     icon: "/images/nguthuat/icon-tuong.webp",
-    href: "/nguthuat/tuong/xem-tuong",
+    href: "/nguthuat/tuong",
   },
 ];
 
 function NguThuatHub() {
   return (
     <Shell activePage="nguthuat">
-      <div className="page-hero" style={{ backgroundImage: "url('/images/nguthuat/bg-nguthuat-hero.webp')" }}>
+      <div className="page-hero" style={{ backgroundImage: `url('${cfg.heroImage}')` }}>
         <div className="page-hero-overlay" />
         <div className="page-hero-content">
           <div className="breadcrumb"><a href="/">🏠</a> / <a href="/">Trang chủ</a> / <span>Ngũ thuật</span></div>
@@ -231,6 +231,181 @@ function NguThuatHub() {
             <strong>Không phán đoán cực đoan</strong>
             <p>Ứng dụng hỗ trợ tham khảo và thực hành, không thay thế tư duy độc lập và trách nhiệm cá nhân.</p>
           </div>
+        </div>
+      </div>
+    </Shell>
+  );
+}
+
+interface NguThuatBranchApp {
+  key: string;
+  title: string;
+  desc: string;
+  href: string;
+  cta: string;
+  image?: string;
+  note?: string;
+  status?: "ready" | "comingSoon";
+}
+
+interface NguThuatBranchLandingConfig {
+  title: string;
+  subtitle: string;
+  desc: string;
+  heroImage: string;
+  icon: string;
+  apps: NguThuatBranchApp[];
+}
+
+const NGU_THUAT_BRANCH_LANDINGS: Record<string, NguThuatBranchLandingConfig> = {
+  "/nguthuat/son": {
+    title: "Sơn",
+    subtitle: "Phong thủy an cư",
+    desc: "Cổng nhánh Sơn tập trung vào phong thủy an cư, hướng nhà, Bát trạch và bố cục không gian sống.",
+    heroImage: "/images/nguthuat/son/ui-son-hero-bg-phong-thuy.png",
+    icon: "/images/nguthuat/icon-son.webp",
+    apps: [
+      {
+        key: "phong-thuy",
+        title: "Phong thủy an cư",
+        desc: "Tra cứu hướng nhà, Đông Tây tứ mệnh, Bát trạch và phân vùng bố trí không gian theo tri thức cổ học.",
+        href: "/nguthuat/son/phongthu",
+        cta: "Mở Phong thủy",
+        image: "/images/nguthuat/son/ui-son-phong-thuy-an-cu-card.png",
+      },
+    ],
+  },
+  "/nguthuat/y": {
+    title: "Y",
+    subtitle: "Y học cổ học",
+    desc: "Cổng nhánh Y phục vụ tham khảo dưỡng sinh, tiết khí, khí huyết và cách ứng dụng thận trọng trong đời sống.",
+    heroImage: "/images/nguthuat/y/ui-y-hero-bg-yhoc.png",
+    icon: "/images/nguthuat/icon-y.webp",
+    apps: [
+      {
+        key: "y-hoc",
+        title: "Y học cổ học",
+        desc: "Mở hệ thống tham khảo dưỡng sinh, tiết khí và cân bằng cơ thể theo góc nhìn y học cổ truyền.",
+        href: "/nguthuat/y/yhoc",
+        cta: "Mở Y học",
+        image: "/images/nguthuat/y/ui-y-yhoc-co-hoc-card.png",
+      },
+    ],
+  },
+  "/nguthuat/boc": {
+    title: "Bốc",
+    subtitle: "Mai Hoa Dịch số",
+    desc: "Cổng nhánh Bốc hướng đến lập quẻ tham khảo, học cách đọc quẻ và đặt giới hạn diễn giải rõ ràng.",
+    heroImage: "/images/nguthuat/boc/ui-boc-hero-bg-maihoa.png",
+    icon: "/images/nguthuat/icon-boc.webp",
+    apps: [
+      {
+        key: "mai-hoa",
+        title: "Mai Hoa Dịch số",
+        desc: "Vào công cụ lập quẻ và tham khảo cách đọc 64 quẻ theo hướng học hiểu, không khẳng định tuyệt đối.",
+        href: "/nguthuat/boc/maihoa",
+        cta: "Mở Mai Hoa",
+        image: "/images/nguthuat/boc/ui-boc-mai-hoa-card.png",
+      },
+    ],
+  },
+  "/nguthuat/menh": {
+    title: "Mệnh",
+    subtitle: "Can Chi và cấu trúc mệnh",
+    desc: "Cổng nhánh Mệnh là nơi quy tụ các công cụ đọc mệnh theo dữ liệu ngày giờ sinh và hệ thống Can Chi.",
+    heroImage: "/images/nguthuat/menh/ui-menh-hero-bg-luan-menh.png",
+    icon: "/images/nguthuat/icon-menh.webp",
+    apps: [
+      {
+        key: "tu-tru",
+        title: "Tứ Trụ",
+        desc: "Lưu ý: Tứ Trụ là app con full page, mở trong không gian riêng để tra cứu chi tiết.",
+        href: "/nguthuat/menh/tutru/",
+        cta: "Mở Tứ Trụ",
+        image: "/images/nguthuat/menh/ui-menh-tu-tru-card.png",
+        note: "App con full page",
+      },
+      {
+        key: "tu-vi",
+        title: "Tử Vi",
+        desc: "Ứng dụng Tử Vi sẽ được chuẩn bị sau, phục vụ học hiểu hệ thống cung, sao và vận hạn theo hướng tham khảo.",
+        href: "/nguthuat/menh/tu-vi",
+        cta: "Sắp mở",
+        image: "/images/nguthuat/menh/ui-menh-tu-vi-card.png",
+        note: "Đang chuẩn bị",
+        status: "comingSoon",
+      },
+    ],
+  },
+  "/nguthuat/tuong": {
+    title: "Tướng",
+    subtitle: "Quan sát và học hiểu",
+    desc: "Cổng nhánh Tướng tập trung vào hướng học quan sát, tôn trọng bối cảnh và tránh định kiến với con người.",
+    heroImage: "/images/nguthuat/tuong/ui-tuong-hero-bg-xem-tuong.png",
+    icon: "/images/nguthuat/icon-tuong.webp",
+    apps: [
+      {
+        key: "xem-tuong",
+        title: "Xem tướng tham khảo",
+        desc: "Vào mục học tập và tham khảo cách quan sát hình tướng theo tinh thần thận trọng và có giới hạn.",
+        href: "/nguthuat/tuong/xem-tuong",
+        cta: "Mở Xem tướng",
+        image: "/images/nguthuat/tuong/ui-tuong-xem-tuong-card.png",
+      },
+    ],
+  },
+};
+
+function NguThuatBranchLanding({ cfg }: { cfg: NguThuatBranchLandingConfig }) {
+  return (
+    <Shell activePage="nguthuat">
+      <div className="page-hero" style={{ backgroundImage: `url('${cfg.heroImage}')` }}>
+        <div className="page-hero-overlay" />
+        <div className="page-hero-content">
+          <div className="breadcrumb">
+            <a href="/">🏠</a> / <a href="/">Trang chủ</a> / <a href="/nguthuat">Ngũ thuật</a> / <span>{cfg.title}</span>
+          </div>
+          <div className="ornament">◆</div>
+          <h1>{cfg.title}</h1>
+          <p style={{ color: "var(--gold)", fontSize: "14px", letterSpacing: ".08em", marginBottom: "16px" }}>{cfg.subtitle}</p>
+          <p className="lead">{cfg.desc}</p>
+        </div>
+      </div>
+
+      <div className="branch-cards-wrap">
+        <div className={`branch-cards branch-cards-gateway${cfg.apps.length > 1 ? " branch-cards-gateway-two" : ""}`}>
+          {cfg.apps.map((app) => (
+            <a
+              key={app.key}
+              className={`branch-card branch-card-gateway${app.status === "comingSoon" ? " branch-card-soon" : ""}`}
+              href={app.href}
+            >
+              <div className="branch-card-inner">
+                {app.image ? (
+                  <div className="branch-gateway-art">
+                    <img src={app.image} className="branch-gateway-art-img" alt={app.title} />
+                  </div>
+                ) : (
+                  <img src={cfg.icon} className="branch-icon" alt={cfg.title} />
+                )}
+                <h2>{app.title}</h2>
+                <div className="branch-divider">◆</div>
+                <p className="branch-desc">{app.desc}</p>
+                {app.status === "comingSoon" ? <p className="branch-gateway-state">Đang chuẩn bị</p> : null}
+                {app.note ? <p className="branch-gateway-note">{app.note}</p> : null}
+                <span className={`branch-btn${app.status === "comingSoon" ? " branch-btn-soon" : ""}`}>
+                  {app.cta} <span>›</span>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div className="placeholder-body branch-landing-actions">
+        <div className="placeholder-btn-row">
+          <a className="ph-btn-primary" href="/nguthuat">← Quay về Ngũ thuật</a>
+          <a className="ph-btn-secondary" href="/">Về trang chủ App</a>
         </div>
       </div>
     </Shell>
@@ -393,16 +568,6 @@ const PLACEHOLDER_ROUTES: Record<string, PlaceholderConfig> = {
     grandParent: "Trang chủ",
     grandParentHref: "/",
   },
-  "/nguthuat/y/yhoc": {
-    title: "Y - Y học cổ học",
-    subtitle: "Dưỡng sinh · Khí huyết · Mùa tiết",
-    icon: "⚕",
-    desc: "Tra cứu kiến thức dưỡng sinh, mùa tiết, thân thể và khí huyết theo góc nhìn y học cổ truyền. Chỉ mang tính tham khảo.",
-    parent: "Ngũ thuật",
-    parentHref: "/nguthuat",
-    grandParent: "Trang chủ",
-    grandParentHref: "/",
-  },
   "/nguthuat/boc/maihoa": {
     title: "Bốc - Mai Hoa Dịch Số",
     subtitle: "Mai Hoa · 64 quẻ Dịch",
@@ -412,6 +577,16 @@ const PLACEHOLDER_ROUTES: Record<string, PlaceholderConfig> = {
     parentHref: "/nguthuat",
     grandParent: "Trang chủ",
     grandParentHref: "/",
+  },
+  "/nguthuat/menh/tu-vi": {
+    title: "Tử Vi - Đang chuẩn bị",
+    subtitle: "Tử Vi · Cung sao · Tham khảo",
+    icon: "✦",
+    desc: "Ứng dụng Tử Vi đang được chuẩn bị, phục vụ học hiểu hệ thống cung, sao và vận hạn theo hướng tham khảo. Nội dung không dùng để kết luận số phận tuyệt đối.",
+    parent: "Mệnh",
+    parentHref: "/nguthuat/menh",
+    grandParent: "Ngũ thuật",
+    grandParentHref: "/nguthuat",
   },
   "/nguthuat/tuong/xem-tuong": {
     title: "Tướng - Xem tướng tham khảo",
@@ -475,10 +650,23 @@ function App() {
   const path = route();
   if (path === "/nguthuat") return <NguThuatHub />;
   if (path === "/tam-thuc") return <TamThucHub />;
+  const nguThuatLanding = NGU_THUAT_BRANCH_LANDINGS[path];
+  if (nguThuatLanding) return <NguThuatBranchLanding cfg={nguThuatLanding} />;
   if (path === "/nguthuat/menh/tutru") return <TuTruRedirect />;
   const ph = PLACEHOLDER_ROUTES[path];
   if (ph) return <PlaceholderPage cfg={ph} />;
   return <Home />;
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+const staticAppRedirects: Record<string, string> = {
+  "/nguthuat/y/yhoc": "/nguthuat/y/yhoc/index.html",
+  "/nguthuat/y/yhoc/": "/nguthuat/y/yhoc/index.html",
+};
+
+const staticTarget = staticAppRedirects[window.location.pathname];
+
+if (staticTarget) {
+  window.location.replace(staticTarget);
+} else {
+  createRoot(document.getElementById("root")!).render(<App />);
+}

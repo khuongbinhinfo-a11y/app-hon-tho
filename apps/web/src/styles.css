@@ -290,6 +290,58 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(180deg, #c9a24e, #7a4e16);
   color: var(--ink);
 }
+.branch-cards-gateway {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 860px;
+}
+.branch-cards-gateway-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 980px;
+}
+.branch-card-gateway .branch-card-inner {
+  text-align: left;
+  align-items: flex-start;
+}
+.branch-gateway-art {
+  width: 100%;
+  margin-bottom: 6px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--gold-soft);
+  background: rgba(28, 18, 8, .72);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .28);
+}
+.branch-gateway-art-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.branch-card-soon {
+  border-color: rgba(214,180,106,.3);
+}
+.branch-gateway-state {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: .9;
+}
+.branch-gateway-note {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: .04em;
+  border: 1px solid var(--gold-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.branch-landing-actions {
+  padding-top: 0;
+}
+.branch-btn-soon {
+  background: rgba(24,18,9,.78);
+  color: var(--gold);
+}
 
 /* ── PRINCIPLES BAR ── */
 .principles-bar {
@@ -342,6 +394,8 @@ a { color: inherit; text-decoration: none; }
   .home-cards { grid-template-columns: 1fr; }
   .branch-cards.five { grid-template-columns: repeat(2, 1fr); }
   .branch-cards.three { grid-template-columns: 1fr; }
+  .branch-cards-gateway-two { grid-template-columns: 1fr; }
+  .branch-card-gateway .branch-card-inner { text-align: center; align-items: center; }
   .principles-bar { flex-direction: column; align-items: center; }
   .portal-card { min-height: 280px; }
 }
@@ -352,6 +406,7 @@ a { color: inherit; text-decoration: none; }
   .nav-hamburger { display: flex; }
   .brand-full { display: none; }
   .brand-short { display: inline; }
+  .branch-cards.five { grid-template-columns: 1fr; }
 }
 
 /* Mobile ≤600px */
@@ -420,11 +475,6 @@ a { color: inherit; text-decoration: none; }
   .tamthuc-footer-quote { padding: 18px 16px; font-size: 13px; }
 }
 
-/* Mobile lớn 430px — 2 cột cho branch cards five */
-@media (min-width: 430px) and (max-width: 600px) {
-  .branch-cards.five { grid-template-columns: repeat(2, 1fr); }
-}
-
 /* Tablet 601-768px */
 @media (min-width: 601px) and (max-width: 768px) {
   .top-nav { padding: 0 20px; }
@@ -489,3 +539,4 @@ img { max-width: 100%; }
   transition: color .2s;
 }
 .ph-btn-secondary:hover { color: var(--gold); }
+
