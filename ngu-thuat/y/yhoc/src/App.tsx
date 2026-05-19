@@ -356,6 +356,11 @@ function FormScreen({ onSubmit, onBack }: { onSubmit: (answers: YhocAnswers) => 
   );
 }
 
+const normalizePatternScore = (score?: number) => {
+  const raw = score ?? 0;
+  return Math.max(0, Math.min(100, Math.round((raw / 7) * 100)));
+};
+
 function ResultScreen({ answers, onReset, onLearn }: {
   answers: YhocAnswers;
   onReset: () => void;
@@ -403,7 +408,9 @@ function ResultScreen({ answers, onReset, onLearn }: {
             </div>
           )}
 
-          {result.topPatterns.map((item, i) => (
+          {result.topPatterns.map((item, i) => {
+            const scorePercent = normalizePatternScore(item.score);
+            return (
             <div key={item.pattern.id} className={`pattern-card rank-${i}`}>
               <div className="pattern-header">
                 <div className="pattern-icon-wrap">☯</div>
@@ -411,10 +418,10 @@ function ResultScreen({ answers, onReset, onLearn }: {
                   <div className="pattern-name">Xu hướng {item.pattern.name}</div>
                   <div className="pattern-cat">{item.pattern.classicalCategory} · Mức tin cậy: {CONFIDENCE_LABEL[item.confidence] ?? item.confidence}</div>
                 </div>
-                <div className="pattern-score-num">{Math.round((item.score ?? 0) * 100)}</div>
+                <div className="pattern-score-num">{scorePercent}%</div>
               </div>
               <div className="pattern-score-bar-bg">
-                <div className="pattern-score-bar-fill" style={{ width: `${Math.min(100, Math.round((item.score ?? 0) * 100))}%` }} />
+                <div className="pattern-score-bar-fill" style={{ width: `${scorePercent}%` }} />
               </div>
               <p className="pattern-wording">{item.wording}</p>
               <div className="pattern-signs">
@@ -434,7 +441,8 @@ function ResultScreen({ answers, onReset, onLearn }: {
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
 
           {result.contradictions.length > 0 && (
             <div className="contradiction-box">
