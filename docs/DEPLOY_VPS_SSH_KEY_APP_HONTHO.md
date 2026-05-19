@@ -19,6 +19,8 @@ Build/copy/restart theo cấu hình server
 ↓
 Kiểm tra domain live
 ```
+SSH-KEY: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG9+aER/o86UPq0w6mpM7mDG/J9ojjlbj4HRmaa9fEDZ app-hontho-vps @103.77.173.213
+SSH-KEY-private : C:\Users\<tên-user>\.ssh\id_ed25519
 
 GitHub chỉ là nơi chứa code. VPS mới là nơi chạy app.
 
