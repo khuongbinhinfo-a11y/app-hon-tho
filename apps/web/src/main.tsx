@@ -575,16 +575,7 @@ const PLACEHOLDER_ROUTES: Record<string, PlaceholderConfig> = {
     grandParent: "Trang chủ",
     grandParentHref: "/",
   },
-  "/nguthuat/boc/maihoa": {
-    title: "Bốc - Mai Hoa Dịch Số",
-    subtitle: "Mai Hoa · 64 quẻ Dịch",
-    icon: "☵",
-    desc: "Lập quẻ tham khảo theo phương pháp Mai Hoa Dịch Số, học tượng số và cách đọc có giới hạn.",
-    parent: "Ngũ thuật",
-    parentHref: "/nguthuat",
-    grandParent: "Trang chủ",
-    grandParentHref: "/",
-  },
+  // Note: /nguthuat/boc/maihoa now has a standalone app - redirects in staticAppRedirects
   "/nguthuat/menh/tu-vi": {
     title: "Tử Vi - Đang chuẩn bị",
     subtitle: "Tử Vi · Cung sao · Tham khảo",
@@ -668,6 +659,8 @@ function App() {
 const staticAppRedirects: Record<string, string> = {
   "/nguthuat/y/yhoc": "/nguthuat/y/yhoc/index.html",
   "/nguthuat/y/yhoc/": "/nguthuat/y/yhoc/index.html",
+  "/nguthuat/boc/maihoa": "/nguthuat/boc/maihoa/index.html",
+  "/nguthuat/boc/maihoa/": "/nguthuat/boc/maihoa/index.html",
 };
 
 const staticTarget = staticAppRedirects[window.location.pathname];
