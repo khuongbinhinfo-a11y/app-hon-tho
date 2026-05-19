@@ -20,8 +20,14 @@ Build/copy/restart theo cấu hình server
 Kiểm tra domain live
 ```
 SSH-KEY: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG9+aER/o86UPq0w6mpM7mDG/J9ojjlbj4HRmaa9fEDZ app-hontho-vps @103.77.173.213
-SSH-KEY-private : C:\Users\<tên-user>\.ssh\id_ed25519
-
+SSH-KEY-private : C:\Users\<tên-user>\.ssh\app_hontho_vps
+-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+QyNTUxOQAAACBvfmhEf6POlD6tMOpqTO5gxvyfaI45W4+B0ZmmvXxA2QAAAJiGMKCUhjCg
+lAAAAAtzc2gtZWQyNTUxOQAAACBvfmhEf6POlD6tMOpqTO5gxvyfaI45W4+B0ZmmvXxA2Q
+AAAEBqebvg1xvDyCYnOpeBWmzOZNKfuST2i+gBvkkUCdtO5W9+aER/o86UPq0w6mpM7mDG
+/J9ojjlbj4HRmaa9fEDZAAAADmFwcC1ob250aG8tdnBzAQIDBAUGBw==
+-----END OPENSSH PRIVATE KEY-----
 GitHub chỉ là nơi chứa code. VPS mới là nơi chạy app.
 
 ---
