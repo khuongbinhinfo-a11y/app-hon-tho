@@ -265,6 +265,20 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
   display: flex; flex-direction: column; align-items: center; gap: 8px;
 }
+.branch-card-art {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--gold-soft);
+  background: rgba(28,18,8,.72);
+  margin-bottom: 6px;
+}
+.branch-card-art-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
 .branch-icon {
   width: 88px; height: 88px; object-fit: contain;
   border-radius: 50%; border: 1px solid var(--gold-soft);

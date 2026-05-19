@@ -141,6 +141,7 @@ const nguThuatCards = [
     sub: "Phong thủy an cư",
     desc: "Bát trạch, Phi tinh, hướng nhà và bố cục không gian sống.",
     icon: "/images/nguthuat/icon-son.webp",
+    art: "/images/nguthuat/home-cards/ui-nguthuat-card-son-art.png",
     href: "/nguthuat/son",
   },
   {
@@ -149,6 +150,7 @@ const nguThuatCards = [
     sub: "Y học cổ học",
     desc: "Kiến thức dưỡng sinh, mùa tiết, thân thể và khí huyết tham khảo.",
     icon: "/images/nguthuat/icon-y.webp",
+    art: "/images/nguthuat/home-cards/ui-nguthuat-card-y-art.png",
     href: "/nguthuat/y",
   },
   {
@@ -157,6 +159,7 @@ const nguThuatCards = [
     sub: "Tứ Trụ",
     desc: "Lập bốn trụ từ ngày giờ sinh, đọc Can Chi, Ngũ hành và Thập thần.",
     icon: "/images/nguthuat/icon-menh.webp",
+    art: "/images/nguthuat/home-cards/ui-nguthuat-card-menh-art.png",
     href: "/nguthuat/menh",
   },
   {
@@ -165,6 +168,7 @@ const nguThuatCards = [
     sub: "Mai Hoa · 64 quẻ",
     desc: "Lập quẻ tham khảo, học tượng số và cách đọc có giới hạn.",
     icon: "/images/nguthuat/icon-boc.webp",
+    art: "/images/nguthuat/home-cards/ui-nguthuat-card-boc-art.png",
     href: "/nguthuat/boc",
   },
   {
@@ -173,6 +177,7 @@ const nguThuatCards = [
     sub: "Xem tướng tham khảo",
     desc: "Quan sát hình tướng theo tinh thần học hỏi, không định kiến con người.",
     icon: "/images/nguthuat/icon-tuong.webp",
+    art: "/images/nguthuat/home-cards/ui-nguthuat-card-tuong-art.png",
     href: "/nguthuat/tuong",
   },
 ];
@@ -198,7 +203,9 @@ function NguThuatHub() {
           {nguThuatCards.map((card) => (
             <a key={card.key} className="branch-card" href={card.href}>
               <div className="branch-card-inner">
-                <img src={card.icon} className="branch-icon" alt={card.title} />
+                <div className="branch-card-art">
+                  <img src={card.art} className="branch-card-art-img" alt={card.title} />
+                </div>
                 <h2>{card.title}</h2>
                 <div className="branch-divider">◆</div>
                 <p className="branch-sub">{card.sub}</p>
