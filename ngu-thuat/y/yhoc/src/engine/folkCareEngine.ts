@@ -128,15 +128,15 @@ export function suggestFolkCareByPattern(patternIds: string[]): FolkCareItem[] {
   // Mapping pattern -> folk care suggestions
   const patternMappings: Record<string, string[]> = {
     // Khí hư / Dương hư
-    'khihut': ['cold_hands_feet', 'tired_after_work', 'tired_after_staying_up', 'body_heavy_damp'],
+    'khihut': ['cold_hands_feet', 'tired_after_work', 'tired_after_staying_up', 'body_heavy_damp', 'fatigue_humid_season', 'tired_after_poor_sleep'],
     // Tỳ vị hư / Đàm thấp
-    'tyvihu': ['bloated_after_eating', 'poor_digestion', 'body_heavy_damp'],
+    'tyvihu': ['bloated_after_eating', 'poor_digestion', 'body_heavy_damp', 'weak_digestion', 'poor_appetite_few_days'],
     // Can khí uất / Khí trệ
-    'cankhiuat': ['mild_stress', 'overthinking', 'light_insomnia'],
+    'cankhiuat': ['mild_stress', 'overthinking', 'light_insomnia', 'mild_restlessness', 'hard_to_relax_evening', 'waking_up_often'],
     // Âm hư / Táo
-    'amhu': ['dry_throat_mild', 'dry_mouth', 'dry_skin_mild', 'inner_heat_mild'],
+    'amhu': ['dry_throat_mild', 'dry_mouth', 'dry_skin_mild', 'inner_heat_mild', 'chapped_lips_mild', 'thirsty_after_late_night'],
     // Thấp nhiệt
-    'thapnhiet': ['inner_heat_mild', 'bitter_mouth_oily', 'body_heavy_damp'],
+    'thapnhiet': ['inner_heat_mild', 'bitter_mouth_oily', 'body_heavy_damp', 'irritable_hot_weather', 'heavy_body_oily_food'],
   };
 
   for (const patternId of patternIds) {
