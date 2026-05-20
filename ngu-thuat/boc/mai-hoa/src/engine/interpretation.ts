@@ -1,4 +1,5 @@
 import type { FiveElementsRelation, CalculationResult, QuestionType } from "./types";
+import { getKnowledgeForQuestion, getElementExplanation, getRelationshipMeaning } from "./interpretation-knowledge";
 
 const elementCycle: Record<string, string> = {
   "Kim": "Thủy",
@@ -38,35 +39,35 @@ export function getFiveElementsRelation(element1: string, element2: string): Fiv
 export function generateSafeInterpretation(result: CalculationResult): string[] {
   const interpretations: string[] = [];
   const { primaryHexagram, mutualHexagram, changedHexagram, movingLine, upperTrigram, lowerTrigram } = result;
-  
+
   // Primary hexagram interpretation
   interpretations.push(`**Quẻ chủ ${primaryHexagram.name_vi}:** ${primaryHexagram.safe_interpretation}`);
-  
-  // Body-Usage relation
-  // If moving line is in upper trigram (lines 4,5,6), upper is body, lower is usage
-  // If moving line is in lower trigram (lines 1,2,3), lower is body, upper is usage
+
+  // Body-Usage relation with simple explanation
   let bodyUsageText: string;
   if (movingLine >= 4) {
     const bodyUsage = getFiveElementsRelation(upperTrigram.element, lowerTrigram.element);
-    bodyUsageText = `Thể: ${upperTrigram.name_vi} (${upperTrigram.element}) | Dụng: ${lowerTrigram.name_vi} (${lowerTrigram.element}) | ${bodyUsage.description}`;
+    const relationMeaning = getRelationshipMeaning(bodyUsage.relation);
+    bodyUsageText = `**Thể-Dụng:** ${upperTrigram.name_vi} (${getElementExplanation(upperTrigram.element)}) → ${lowerTrigram.name_vi} (${getElementExplanation(lowerTrigram.element)}) = ${relationMeaning}`;
   } else {
     const bodyUsage = getFiveElementsRelation(lowerTrigram.element, upperTrigram.element);
-    bodyUsageText = `Thể: ${lowerTrigram.name_vi} (${lowerTrigram.element}) | Dụng: ${upperTrigram.name_vi} (${upperTrigram.element}) | ${bodyUsage.description}`;
+    const relationMeaning = getRelationshipMeaning(bodyUsage.relation);
+    bodyUsageText = `**Thể-Dụng:** ${lowerTrigram.name_vi} (${getElementExplanation(lowerTrigram.element)}) → ${upperTrigram.name_vi} (${getElementExplanation(upperTrigram.element)}) = ${relationMeaning}`;
   }
   interpretations.push(bodyUsageText);
-  
+
   // Mutual hexagram interpretation
   interpretations.push(`**Quẻ hỗ ${mutualHexagram.name_vi}:** ${mutualHexagram.safe_interpretation}`);
-  
+
   // Changed hexagram interpretation
   interpretations.push(`**Quẻ biến ${changedHexagram.name_vi}:** ${changedHexagram.safe_interpretation}`);
-  
+
   // Moving line guidance
   interpretations.push(`Hào động ${movingLine} cho thấy điểm biến chuyển trong tình thế hiện tại.`);
-  
+
   // Cautionary note
   interpretations.push("Đây là kết quả tham khảo. Nên kiểm chứng với điều kiện thực tế trước khi quyết định.");
-  
+
   return interpretations;
 }
 
@@ -80,50 +81,10 @@ export function getReflectionQuestions(questionType?: QuestionType): string[] {
 
   if (!questionType) return baseQuestions;
 
-  // Add context-specific questions based on question type
-  const contextualQuestions: Record<string, string[]> = {
-    career: [
-      "Bạn đã đánh giá đầy đủ năng lực bản thân và điều kiện thị trường chưa?",
-      "Có thể cần tham khảo ý kiến đồng nghiệp hoặc cấp trên trước quyết định."
-    ],
-    relationship: [
-      "Bạn đã lắng nghe quan điểm của đối phương chưa?",
-      "Giao tiếp cởi mở thường quan trọng hơn quyết định đơn phương."
-    ],
-    health: [
-      "⚠️ Kết quả này KHÔNG thay thế chẩn đoán y tế.",
-      "Nếu có triệu chứng bất thường, hãy đi khám bác sĩ càng sớm càng tốt.",
-      "Tự quan sát sức khỏe và giữ thói quen sinh hoạt điều độ là cần thiết."
-    ],
-    major_finance: [
-      "⚠️ Đây là vấn đề tài chính quan trọng.",
-      "NÊN tham khảo ý kiến chuyên gia tài chính trước khi quyết định.",
-      "Không nên dựa vào kết quả này để đầu tư hoặc quyết định tài chính lớn."
-    ],
-    small_finance: [
-      "Cân nhắc kỹ lưỡng trước khi chi tiêu.",
-      "Tránh quyết định nóng vội về tiền bạc."
-    ],
-    study: [
-      "Kết quả học tập phụ thuộc nhiều vào sự chuẩn bị và độ bền.",
-      "Có thể cần điều chỉnh phương pháp học phù hợp."
-    ],
-    travel: [
-      "Kiểm tra kỹ các giấy tờ cần thiết trước khi đi.",
-      "Chuẩn bị phương án dự phòng cho tình huống bất ngờ."
-    ],
-    choice: [
-      "Hãy liệt kê ưu/nhược điểm của từng phương án.",
-      "Quyết định cuối cùng nên dựa trên phân tích thực tế."
-    ],
-    timing: [
-      "Điều kiện chín muồi thường quan trọng hơn thời điểm tuyệt đối.",
-      "Cần cân nhắc các yếu tố khách quan xung quanh."
-    ]
-  };
+  const knowledge = getKnowledgeForQuestion(questionType);
+  if (!knowledge) return baseQuestions;
 
-  const additional = contextualQuestions[questionType.id] || [];
-  return [...baseQuestions, ...additional];
+  return [...baseQuestions];
 }
 
 export function generateContextualInterpretation(
@@ -134,19 +95,37 @@ export function generateContextualInterpretation(
 
   if (!questionType) return interpretations;
 
-  // Add contextual guidance based on question type
-  const contextPrefix = `**Bối cảnh: ${questionType.label}**`;
-  const toneNote = `*Hướng dẫn: ${questionType.guidanceTone}*`;
-
-  // Add risk level warning for high-risk questions
-  if (questionType.riskLevel === "high") {
-    if (questionType.id === "health") {
-      interpretations.push("⚠️ **Cảnh báo sức khỏe:** Kết quả này chỉ là tham khảo tượng số, hoàn toàn không thay thế chẩn đoán y tế. Nếu có vấn đề sức khỏe, hãy đi khám bác sĩ.");
-    } else if (questionType.id === "major_finance") {
-      interpretations.push("⚠️ **Cảnh báo tài chính:** Đây là quyết định tài chính quan trọng. Vui lòng tham khảo ý kiến chuyên gia tài chính chuyên nghiệp. Không nên dựa vào kết quả này để đầu tư.");
-    }
+  const knowledge = getKnowledgeForQuestion(questionType);
+  if (!knowledge) {
+    const contextPrefix = `**Bối cảnh: ${questionType.label}**`;
+    const toneNote = `*Hướng dẫn: ${questionType.guidanceTone}*`;
+    return [contextPrefix, toneNote, "", ...interpretations];
   }
 
-  // Insert context at the beginning
-  return [contextPrefix, toneNote, "", ...interpretations];
+  const contextPrefix = `**Bối cảnh: ${questionType.label}**`;
+  const toneNote = `*Hướng dẫn: ${questionType.guidanceTone}*`;
+  const simpleExpl = `**Cách tiếp cận:** ${knowledge.simpleExplanation}`;
+
+  const keyInsightsText = knowledge.keyInsights.length > 0
+    ? `**Những điểm chính:**\n${knowledge.keyInsights.map(k => `- ${k}`).join("\n")}`
+    : "";
+
+  const warningText = knowledge.warningNotes.length > 0
+    ? `**Cảnh báo:**\n${knowledge.warningNotes.map(w => `- ${w}`).join("\n")}`
+    : "";
+
+  const result_array = [contextPrefix, toneNote, "", simpleExpl];
+
+  if (keyInsightsText) {
+    result_array.push("", keyInsightsText);
+  }
+
+  result_array.push("", "**Diễn giải chi tiết:**", "");
+  result_array.push(...interpretations);
+
+  if (warningText) {
+    result_array.push("", warningText);
+  }
+
+  return result_array;
 }
