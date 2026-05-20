@@ -272,7 +272,7 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
     contextualGuidance: {
       waiting: [
         "Nếu quẻ gợi ý chưa sẵn sàng, hãy chuẩn bị thêm hoặc chờ",
-        "Kiên nhẫn thường mang lại kết quả tốt hơn vội vàng"
+        "Kiên nhẫn thường mang lại kết quả tốt hơn vội vày"
       ],
       action: [
         "Nếu quẻ gợi ý sẵn sàng, hãy hành động quyết đoán",
@@ -282,6 +282,102 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
     warningNotes: [
       "Điều kiện chín muồi phụ thuộc vào nhiều yếu tố, không chỉ thời gian",
       "Hãy quan sát thực tế và điều chỉnh kế hoạch nếu cần"
+    ]
+  },
+
+  family: {
+    simpleExplanation: "Nhìn vào sự cân bằng giữa các thành viên gia đình: vai trò, nhu cầu, và cách giao tiếp. Hòa khí gia đình phụ thuộc vào sự thấu hiểu lẫn nhau.",
+    keyInsights: [
+      "Thể: bạn và vị trí của bạn trong gia đình",
+      "Dụng: người thân khác và nhu cầu của họ",
+      "Quan hệ thể-dụng cho thấy liệu có hòa hợp hay cần điều chỉnh"
+    ],
+    contextualGuidance: {
+      parentChild: [
+        "Hiểu rõ kỳ vọng và nhu cầu của cả hai bên",
+        "Giao tiếp cởi mở thường giải quyết được nhiều xung đột"
+      ],
+      siblings: [
+        "Quẻ chủ cho thấy trạng thái hiện tại của mối quan hệ",
+        "Quẻ biến gợi ý cách mối quan hệ có thể phát triển"
+      ],
+      elderCare: [
+        "Tôn trọng và lắng nghe là nền tảng",
+        "Cân bằng giữa chăm sóc và giữ gìn độc lập của người cao tuổi"
+      ]
+    },
+    warningNotes: [
+      "Giao tiếp cởi mở thường quan trọng hơn bất kỳ dự báo nào",
+      "Nên tìm sự hòa giải thay vì chỉ tập trung vào ý kiến riêng"
+    ]
+  },
+
+  lost_item: {
+    simpleExplanation: "Quẻ chỉ gợi ý hướng quan sát hoặc nơi cần tìm kiếm, không khẳng định chắc chắn vị trí. Hãy kết hợp với logic và tìm kiếm thực tế.",
+    keyInsights: [
+      "Quẻ chủ cho thấy tình trạng của vật thất lạc",
+      "Quẻ hỗ gợi ý những nơi hoặc điều kiện cần chú ý",
+      "Quẻ biến chỉ ra khả năng tìm thấy hoặc hướng tìm kiếm"
+    ],
+    contextualGuidance: {
+      lostObject: [
+        "Hãy nhớ lại nơi cuối cùng bạn thấy vật đó",
+        "Quẻ có thể gợi ý những nơi bạn chưa kiểm tra kỹ"
+      ],
+      lostPerson: [
+        "Liên hệ với cơ quan chức năng nếu cần thiết",
+        "Quẻ chỉ là tham khảo, không thay thế hành động thực tế"
+      ]
+    },
+    warningNotes: [
+      "Kết quả này là gợi ý, không phải khẳng định chắc chắn",
+      "Nên kết hợp với tìm kiếm thực tế và logic"
+    ]
+  },
+
+  reflection: {
+    simpleExplanation: "Quan sát tâm thế và phản ứng bên trong của bạn. Quẻ gợi ý những khía cạnh cần chú ý hoặc suy ngẫm sâu hơn.",
+    keyInsights: [
+      "Quẻ chủ cho thấy trạng thái tâm lý hiện tại",
+      "Quẻ hỗ gợi ý những cảm xúc hoặc suy nghĩ ẩn",
+      "Quẻ biến chỉ ra hướng phát triển tâm thế hoặc nhận thức"
+    ],
+    contextualGuidance: {
+      emotionalState: [
+        "Hãy lắng nghe cơ thể và cảm xúc của bạn",
+        "Tìm hiểu nguồn gốc của cảm xúc thay vì chỉ phản ứng"
+      ],
+      selfAwareness: [
+        "Quan sát những mô hình lặp lại trong hành động của bạn",
+        "Tự phản tư giúp bạn hiểu rõ hơn về bản thân"
+      ],
+      growth: [
+        "Quẻ có thể gợi ý những khía cạnh cần phát triển",
+        "Sự thay đổi bắt đầu từ nhận thức và ý định"
+      ]
+    },
+    warningNotes: [
+      "Tự phản tư là công cụ tốt, nhưng không thay thế tư vấn tâm lý",
+      "Nếu gặp vấn đề tâm lý nghiêm trọng, hãy tìm sự giúp đỡ chuyên môn"
+    ]
+  },
+
+  other: {
+    simpleExplanation: "Giữ diễn giải thận trọng theo bối cảnh cụ thể của câu hỏi. Không khẳng định chắc chắn, mà gợi ý những khía cạnh cần xem xét.",
+    keyInsights: [
+      "Quẻ chủ cho thấy tình trạng hoặc xu hướng chính",
+      "Quẻ hỗ gợi ý những khía cạnh ẩn hoặc phía sau",
+      "Quẻ biến chỉ ra hướng phát triển hoặc hậu quả tiềm năng"
+    ],
+    contextualGuidance: {
+      general: [
+        "Xem xét bối cảnh cụ thể của câu hỏi",
+        "Không nên quá tin tưởng vào kết quả, hãy kết hợp với phán đoán thực tế"
+      ]
+    },
+    warningNotes: [
+      "Kết quả này là tham khảo, không phải dự báo chắc chắn",
+      "Hãy sử dụng lý trí và kinh nghiệm để đánh giá kết quả"
     ]
   }
 };
