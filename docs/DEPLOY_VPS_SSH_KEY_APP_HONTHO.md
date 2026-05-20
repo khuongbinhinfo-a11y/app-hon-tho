@@ -19,8 +19,8 @@ Build/copy/restart theo cấu hình server
 ↓
 Kiểm tra domain live
 ```
-SSH-KEY: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG9+aER/o86UPq0w6mpM7mDG/J9ojjlbj4HRmaa9fEDZ app-hontho-vps @103.77.173.213
-SSH-KEY-private : C:\Users\<tên-user>\.ssh\app_hontho_vps
+SSH-KEY: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBbeWVg6iZzOMmqJKZ0CYB1p2I4CA5CDB/MIpDLHAQfG app-hontho-vps
+SSH-KEY-private : Get-Content "C:\Users\PC\.ssh\app_hontho_vps_new.pub
 -----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
 QyNTUxOQAAACBvfmhEf6POlD6tMOpqTO5gxvyfaI45W4+B0ZmmvXxA2QAAAJiGMKCUhjCg
