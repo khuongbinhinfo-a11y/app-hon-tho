@@ -10,8 +10,11 @@ import { GLOSSARY } from './data/yhoc/glossary';
 import { YHOC_FOUNDATIONS } from './data/yhoc/foundations';
 import { SAFETY_WARNINGS } from './data/yhoc/safety';
 import type { Question, GlossaryTerm, FoundationItem } from './data/yhoc/types';
+import { filterFolkCare, getRedFlags, suggestFolkCareByPattern, type FolkCareItem } from './engine/folkCareEngine';
+import { FOLK_CARE_CATEGORIES, ALL_CATEGORIES_ID, ALL_CATEGORIES_LABEL } from './data/yhoc/folkCareCategories';
+import { SENSITIVE_GROUPS, SENSITIVE_GROUP_WARNING, EMERGENCY_MESSAGE } from './data/yhoc/folkCareSafety';
 
-type Screen = 'hero' | 'safety' | 'form' | 'result' | 'learn';
+type Screen = 'hero' | 'safety' | 'form' | 'result' | 'folk' | 'learn';
 
 const FORM_QUESTIONS = QUESTIONS.filter((q) => q.id !== 'q_red_flags');
 
@@ -361,12 +364,17 @@ const normalizePatternScore = (score?: number) => {
   return Math.max(0, Math.min(100, Math.round((raw / 7) * 100)));
 };
 
-function ResultScreen({ answers, onReset, onLearn }: {
+function ResultScreen({ answers, onReset, onLearn, onFolk }: {
   answers: YhocAnswers;
   onReset: () => void;
   onLearn: () => void;
+  onFolk: () => void;
 }) {
   const result = interpretYhocAnswers(answers);
+  
+  // Get folk care suggestions based on patterns
+  const patternIds = result.topPatterns.map(p => p.pattern.id);
+  const folkSuggestions = suggestFolkCareByPattern(patternIds);
 
   if (result.emergencyFirst) {
     return (
@@ -462,8 +470,26 @@ function ResultScreen({ answers, onReset, onLearn }: {
             {result.generalCautions.map((c, i) => <p key={i} className="caution-line">⚠ {c}</p>)}
           </div>
 
+          {/* Folk Care Suggestions */}
+          {!result.emergencyFirst && folkSuggestions.length > 0 && (
+            <div className="folk-suggestions-box">
+              <h3 className="folk-suggestions-title">Có thể tham khảo thêm trong Cẩm nang</h3>
+              <p className="folk-suggestions-note">Những mục này chỉ là gợi ý đọc thêm, không phải hướng điều trị.</p>
+              <div className="folk-suggestions-list">
+                {folkSuggestions.slice(0, 5).map((item) => (
+                  <div key={item.id} className="folk-suggestion-chip" onClick={onFolk}>
+                    <span className="folk-suggestion-icon">📖</span>
+                    <span className="folk-suggestion-text">{item.title}</span>
+                  </div>
+                ))}
+              </div>
+              <button className="btn-folk-link" onClick={onFolk}>Xem Cẩm nang chăm sóc đời sống →</button>
+            </div>
+          )}
+
           <div className="result-actions">
             <button className="btn-secondary" onClick={onReset}>Làm lại</button>
+            <button className="btn-folk" onClick={onFolk}>Cẩm nang</button>
             <button className="btn-primary" onClick={onLearn}>Sang kho tự học →</button>
           </div>
         </div>
@@ -579,6 +605,245 @@ function LearnScreen({ onBack }: { onBack: () => void }) {
   );
 }
 
+// Folk Care Screen Component
+function FolkCareScreen({ onBack }: { onBack: () => void }) {
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState<string>(ALL_CATEGORIES_ID);
+  const [selectedItem, setSelectedItem] = useState<FolkCareItem | null>(null);
+  const [sensitiveGroups, setSensitiveGroups] = useState<string[]>([]);
+  const [redFlags, setRedFlags] = useState<string[]>([]);
+
+  const filterResult = filterFolkCare({
+    searchTerm: search,
+    category: category === ALL_CATEGORIES_ID ? undefined : category,
+    sensitiveGroups: sensitiveGroups as any,
+    hasRedFlag: redFlags.length > 0,
+  });
+
+  const filteredItems = filterResult.items;
+
+  return (
+    <div className="screen folk-screen">
+      <div className="folk-header">
+        <h1 className="folk-title">Cẩm nang chăm sóc đời sống</h1>
+        <p className="folk-subtitle">
+          Một số gợi ý chăm sóc nhẹ khi gặp khó chịu thường ngày. 
+          Nội dung chỉ mang tính tham khảo, không thay thế bác sĩ hoặc thầy thuốc.
+        </p>
+        <button className="folk-back-btn" onClick={onBack}>← Quay lại</button>
+      </div>
+
+      {/* Search */}
+      <div className="folk-toolbar">
+        <div className="folk-search">
+          <input
+            type="text"
+            placeholder="Tìm tình huống: đầy bụng, khó ngủ, lạnh tay chân..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="folk-search-input"
+          />
+        </div>
+
+        {/* Category Filter */}
+        <div className="folk-category-row">
+          <button
+            className={`folk-chip ${category === ALL_CATEGORIES_ID ? 'active' : ''}`}
+            onClick={() => setCategory(ALL_CATEGORIES_ID)}
+          >
+            {ALL_CATEGORIES_LABEL}
+          </button>
+          {FOLK_CARE_CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              className={`folk-chip ${category === cat.id ? 'active' : ''}`}
+              onClick={() => setCategory(cat.id)}
+            >
+              {cat.icon} {cat.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Sensitive Groups */}
+        <div className="folk-sensitive-box">
+          <p className="folk-sensitive-label">Bạn có thuộc nhóm cần thận trọng không?</p>
+          <div className="folk-sensitive-options">
+            {SENSITIVE_GROUPS.map((group) => (
+              <label key={group.id} className="folk-sensitive-checkbox">
+                <input
+                  type="checkbox"
+                  checked={sensitiveGroups.includes(group.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSensitiveGroups([...sensitiveGroups, group.id]);
+                    } else {
+                      setSensitiveGroups(sensitiveGroups.filter((id) => id !== group.id));
+                    }
+                  }}
+                />
+                {group.label}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Red Flag Screening */}
+        <div className="folk-warning">
+          <p className="folk-warning-label">Dấu hiệu cần lưu ý (chọn nếu có):</p>
+          <div className="folk-redflag-options">
+            {getRedFlags().map((flag) => (
+              <label key={flag.id} className="folk-redflag-checkbox">
+                <input
+                  type="checkbox"
+                  checked={redFlags.includes(flag.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setRedFlags([...redFlags, flag.id]);
+                    } else {
+                      setRedFlags(redFlags.filter((id) => id !== flag.id));
+                    }
+                  }}
+                />
+                {flag.label}
+              </label>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="folk-content">
+        {/* Emergency Warning */}
+        {redFlags.length > 0 && (
+          <div className="folk-emergency">
+            <div className="folk-emergency-icon">🚨</div>
+            <p className="folk-emergency-text">{EMERGENCY_MESSAGE}</p>
+          </div>
+        )}
+
+        {/* Sensitive Warning */}
+        {filterResult.filteredDueToSensitive && (
+          <div className="folk-sensitive-warning">
+            <p>{SENSITIVE_GROUP_WARNING}</p>
+          </div>
+        )}
+
+        {/* Results */}
+        {!redFlags.length && (
+          <div className="folk-card-grid">
+            {filteredItems.length === 0 ? (
+              <p className="folk-no-results">Không tìm thấy kết quả phù hợp. Thử từ khóa khác hoặc chọn danh mục khác.</p>
+            ) : (
+              filteredItems.map((item) => (
+                <div key={item.id} className="folk-card" onClick={() => setSelectedItem(item)}>
+                  <div className="folk-card-header">
+                    <span className="folk-card-category">
+                      {FOLK_CARE_CATEGORIES.find((c) => c.id === item.category)?.icon}
+                    </span>
+                    <h3 className="folk-card-title">{item.title}</h3>
+                    <span className={`folk-card-safety folk-card-safety-${item.safetyLevel}`}>
+                      {item.safetyLevel === 'safe' ? 'An toàn' : item.safetyLevel === 'moderate' ? 'Thận trọng' : 'Hỏi bác sĩ'}
+                    </span>
+                  </div>
+                  <p className="folk-card-situation">{item.situation}</p>
+                  <div className="folk-card-signs">
+                    {item.commonSigns.slice(0, 3).map((sign, i) => (
+                      <span key={i} className="folk-card-sign">• {sign}</span>
+                    ))}
+                  </div>
+                  <button className="folk-card-btn">Xem gợi ý an toàn →</button>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Detail Modal */}
+      {selectedItem && (
+        <div className="folk-detail-overlay" onClick={() => setSelectedItem(null)}>
+          <div className="folk-detail" onClick={(e) => e.stopPropagation()}>
+            <button className="folk-detail-close" onClick={() => setSelectedItem(null)}>✕</button>
+            
+            <h2 className="folk-detail-title">{selectedItem.title}</h2>
+            <p className="folk-detail-situation">{selectedItem.situation}</p>
+
+            <div className="folk-detail-section">
+              <h4>Dấu hiệu thường gặp</h4>
+              <ul>
+                {selectedItem.commonSigns.map((s, i) => <li key={i}>{s}</li>)}
+              </ul>
+            </div>
+
+            <div className="folk-detail-section">
+              <h4>Có thể thử</h4>
+              <ul>
+                {selectedItem.safeCare.map((c, i) => <li key={i}>{c}</li>)}
+              </ul>
+            </div>
+
+            {(!sensitiveGroups.length || !selectedItem.hasFolkIngredients) && selectedItem.folkNotes && (
+              <div className="folk-detail-section folk-detail-folk">
+                <h4>Ghi chú dân gian tham khảo</h4>
+                <ul>
+                  {selectedItem.folkNotes.map((n, i) => <li key={i}>{n}</li>)}
+                </ul>
+              </div>
+            )}
+
+            {sensitiveGroups.length > 0 && selectedItem.hasFolkIngredients && (
+              <div className="folk-detail-section folk-detail-sensitive">
+                <p><strong>⚠️ Với nhóm cần thận trọng, app không hiển thị mẹo dân gian có nguyên liệu. Bạn nên hỏi bác sĩ hoặc chuyên gia phù hợp.</strong></p>
+              </div>
+            )}
+
+            <div className="folk-detail-section">
+              <h4>Ăn uống / sinh hoạt</h4>
+              <ul>
+                {selectedItem.foodLifestyleNotes.map((n, i) => <li key={i}>{n}</li>)}
+              </ul>
+            </div>
+
+            <div className="folk-detail-section">
+              <h4>Nên tránh</h4>
+              <ul>
+                {selectedItem.avoid.map((a, i) => <li key={i}>{a}</li>)}
+              </ul>
+            </div>
+
+            <div className="folk-detail-section">
+              <h4>Không phù hợp cho</h4>
+              <ul>
+                {selectedItem.notFor.map((n, i) => <li key={i}>{n}</li>)}
+              </ul>
+            </div>
+
+            <div className="folk-detail-section folk-detail-doctor">
+              <h4>Khi nào nên đi khám</h4>
+              <ul>
+                {selectedItem.whenToSeeDoctor.map((d, i) => <li key={i}>{d}</li>)}
+              </ul>
+            </div>
+
+            {selectedItem.redFlags.length > 0 && (
+              <div className="folk-detail-section folk-detail-redflags">
+                <h4>Cảnh báo</h4>
+                <ul>
+                  {selectedItem.redFlags.map((r, i) => <li key={i}>⚠️ {r}</li>)}
+                </ul>
+              </div>
+            )}
+
+            <div className="folk-detail-disclaimer">
+              <p>Thông tin chỉ mang tính tham khảo, không phải chẩn đoán hay hướng dẫn điều trị.</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>('hero');
   const [answers, setAnswers] = useState<YhocAnswers>({});
@@ -615,13 +880,13 @@ export default function App() {
           </div>
         </a>
         <nav className="header-nav">
-          {(['hero', 'safety', 'form', 'result', 'learn'] as Screen[]).map((s) => (
+          {(['hero', 'safety', 'form', 'result', 'folk', 'learn'] as Screen[]).map((s) => (
             <button
               key={s}
               className={`header-nav-btn${screen === s ? ' active' : ''}`}
               onClick={() => setScreen(s)}
             >
-              {{ hero: 'Trang đầu', safety: 'Nguyên tắc', form: 'Tự quan sát', result: 'Kết quả', learn: 'Tự học' }[s]}
+              {{ hero: 'Trang đầu', safety: 'Nguyên tắc', form: 'Tự quan sát', result: 'Kết quả', folk: 'Cẩm nang', learn: 'Tự học' }[s]}
             </button>
           ))}
         </nav>
@@ -631,7 +896,8 @@ export default function App() {
         {screen === 'hero' && <HeroScreen onNext={goSafety} onSafety={goSafety} />}
         {screen === 'safety' && <SafetyScreen onNext={handleSafety} onBack={goHero} />}
         {screen === 'form' && <FormScreen onSubmit={handleSubmit} onBack={goSafety} />}
-        {screen === 'result' && <ResultScreen answers={answers} onReset={goHero} onLearn={goLearn} />}
+        {screen === 'result' && <ResultScreen answers={answers} onReset={goHero} onLearn={goLearn} onFolk={() => setScreen('folk')} />}
+        {screen === 'folk' && <FolkCareScreen onBack={() => setScreen(Object.keys(answers).length > 0 ? 'result' : 'hero')} />}
         {screen === 'learn' && <LearnScreen onBack={() => setScreen(Object.keys(answers).length > 0 ? 'result' : 'hero')} />}
       </main>
 
