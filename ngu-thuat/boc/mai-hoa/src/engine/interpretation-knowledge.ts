@@ -6,11 +6,11 @@ export interface KnowledgeBase {
 }
 
 const elementSymbols: Record<string, string> = {
-  "Kim": "🔶 Kim (kim loại) - Cứng cỏi, ranh giới rõ ràng",
-  "Thủy": "🔵 Thủy (nước) - Linh hoạt, thích ứng, chảy theo",
-  "Mộc": "🟢 Mộc (gỗ) - Phát triển, tăng trưởng, sáng tạo",
-  "Hỏa": "🔴 Hỏa (lửa) - Năng động, sáng suốt, nhanh chóng",
-  "Thổ": "🟡 Thổ (đất) - Ổn định, chứa đựng, nuôi dưỡng"
+  "Kim": "Kim (kim loại) - Cứng cỏi, ranh giới rõ ràng",
+  "Thủy": "Thủy (nước) - Linh hoạt, thích ứng, chảy theo",
+  "Mộc": "Mộc (gỗ) - Phát triển, tăng trưởng, sáng tạo",
+  "Hỏa": "Hỏa (lửa) - Năng động, sáng suốt, nhanh chóng",
+  "Thổ": "Thổ (đất) - Ổn định, chứa đựng, nuôi dưỡng"
 };
 
 const relationshipMeanings: Record<string, string> = {
@@ -31,72 +31,74 @@ export function getRelationshipMeaning(relation: string): string {
 
 export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
   general: {
-    simpleExplanation: "Quan sát tổng thể tình huống từ nhiều góc độ, không kết luận quá sớm.",
+    simpleExplanation: "Quan sát tổng thể tình huống từ nhiều góc độ. Tránh kết luận quá sớm hoặc tuyệt đối.",
     keyInsights: [
-      "Quẻ chủ cho thấy xu hướng chính của tình thế",
-      "Quẻ hỗ gợi ý những khía cạnh ẩn hoặc phía sau",
-      "Quẻ biến chỉ ra hướng phát triển tiếp theo"
+      "Quẻ chủ cho thấy xu hướng chính của tình thế hiện tại",
+      "Quẻ hỗ gợi ý những khía cạnh ẩn hoặc phía sau mà bạn chưa chú ý",
+      "Quẻ biến chỉ ra hướng phát triển tiếp theo nếu tình thế tiếp tục"
     ],
     contextualGuidance: {
       career: [
         "Nhìn vào vị trí hiện tại (quẻ chủ) và cơ hội phát triển (quẻ biến)",
-        "Quẻ hỗ có thể chỉ những yếu tố bạn chưa chú ý đến"
+        "Quẻ hỗ có thể chỉ những yếu tố bạn chưa chú ý đến hoặc những rủi ro tiềm ẩn",
+        "Xem xét mối quan hệ giữa năng lực của bạn và yêu cầu công việc"
       ],
       relationship: [
         "Quẻ chủ phản ánh trạng thái hiện tại của mối quan hệ",
-        "Quẻ hỗ gợi ý cách cảm nhận của đối phương hoặc yếu tố ẩn"
+        "Quẻ hỗ gợi ý cách cảm nhận của đối phương hoặc những yếu tố ẩn chưa được nói ra",
+        "Quẻ biến chỉ ra hướng mối quan hệ có thể phát triển"
       ],
       health: [
-        "Quan sát các dấu hiệu cơ thể và thói quen sinh hoạt",
-        "Không nên chẩn đoán bệnh dựa trên kết quả này"
+        "Quan sát các dấu hiệu cơ thể, thói quen sinh hoạt, và tâm trạng",
+        "Kết quả này không thay thế chẩn đoán y tế - nếu có triệu chứng bất thường, hãy đi khám bác sĩ"
       ]
     },
     warningNotes: [
-      "Kết quả này là tham khảo, không phải dự báo chắc chắn"
+      "Kết quả này là tham khảo để suy ngẫm, không phải dự báo chắc chắn"
     ]
   },
 
   career: {
-    simpleExplanation: "Nhìn vào sự phối hợp giữa năng lực bản thân (thể) và điều kiện bên ngoài (dụng), cùng với thời điểm thích hợp.",
+    simpleExplanation: "Nhìn vào sự phối hợp giữa năng lực bản thân và điều kiện bên ngoài, cùng với thời điểm thích hợp. Quyết định công việc nên dựa trên phân tích thực tế: lương, môi trường, phát triển kỹ năng.",
     keyInsights: [
-      "Thể (body): năng lực, vị trí, tình trạng hiện tại của bạn",
-      "Dụng (usage): môi trường, cơ hội, yêu cầu của công việc",
-      "Quan hệ giữa thể-dụng cho thấy liệu bạn có phù hợp với công việc này không"
+      "Năng lực và vị trí hiện tại của bạn (thể) so với yêu cầu công việc (dụng)",
+      "Mối quan hệ giữa hai yếu tố này cho thấy liệu bạn có phù hợp với công việc này không",
+      "Thời điểm và điều kiện chín muồi cũng ảnh hưởng đến quyết định"
     ],
     contextualGuidance: {
       promotion: [
-        "Nếu thể-dụng hòa hợp (sinh): bạn sẵn sàng cho bước tiến",
-        "Nếu thể-dụng xung đột (khắc): cần chuẩn bị thêm hoặc điều chỉnh kỳ vọng"
+        "Nếu năng lực và yêu cầu hòa hợp: bạn có nền tảng tốt để bước tiến",
+        "Nếu có xung đột: cần chuẩn bị thêm, tìm hiểu kỹ hơn, hoặc điều chỉnh kỳ vọng",
+        "Hãy tham khảo ý kiến từ người có kinh nghiệm hoặc cấp trên"
       ],
       jobChange: [
         "Quẻ chủ cho thấy tình trạng công việc hiện tại",
         "Quẻ biến chỉ ra công việc mới có thể mang lại gì",
-        "Hào động (moving line) chỉ điểm cần thay đổi"
+        "Hào động chỉ điểm cần thay đổi hoặc điều cần chú ý"
       ],
       teamwork: [
-        "Thể: bạn và kỹ năng của bạn",
-        "Dụng: đội nhóm và yêu cầu công việc",
-        "Quan hệ thể-dụng cho thấy liệu bạn có hợp tác tốt không"
+        "Xem xét kỹ năng của bạn và yêu cầu của đội nhóm",
+        "Mối quan hệ này cho thấy liệu bạn có hợp tác tốt không"
       ]
     },
     warningNotes: [
       "Quyết định công việc nên dựa trên phân tích thực tế: lương, môi trường, phát triển",
-      "Tham khảo ý kiến từ người có kinh nghiệm hoặc cấp trên"
+      "Tham khảo ý kiến từ người có kinh nghiệm hoặc cấp trên trước khi quyết định"
     ]
   },
 
   relationship: {
-    simpleExplanation: "Nhìn vào sự cân bằng giữa hai bên: bạn (thể) và đối phương (dụng), cùng với khả năng giao tiếp và lắng nghe.",
+    simpleExplanation: "Nhìn vào sự cân bằng giữa hai bên: bạn và đối phương, cùng với khả năng giao tiếp và lắng nghe. Mối quan hệ tốt phụ thuộc vào sự thấu hiểu lẫn nhau, không phải dự báo.",
     keyInsights: [
-      "Thể: bạn, cảm xúc, nhu cầu của bạn",
-      "Dụng: đối phương, cảm xúc, nhu cầu của họ",
-      "Quan hệ thể-dụng cho thấy liệu hai bên có hòa hợp không"
+      "Bạn, cảm xúc, nhu cầu của bạn (thể) so với đối phương (dụng)",
+      "Mối quan hệ giữa hai yếu tố này cho thấy liệu có hòa hợp hay cần giao tiếp",
+      "Những cảm xúc chưa được nói ra thường là chìa khóa"
     ],
     contextualGuidance: {
       romance: [
-        "Nếu thể-dụng sinh: hai bên có thể hỗ trợ nhau",
-        "Nếu thể-dụng khắc: cần giao tiếp cởi mở để giải quyết bất đồng",
-        "Quẻ hỗ có thể chỉ những cảm xúc chưa được nói ra"
+        "Nếu hai bên hòa hợp: có cơ sở để hỗ trợ nhau",
+        "Nếu có xung đột: cần giao tiếp cởi mở để giải quyết bất đồng",
+        "Quẻ hỗ có thể chỉ những cảm xúc chưa được nói ra hoặc nhu cầu chưa được thỏa mãn"
       ],
       friendship: [
         "Quẻ chủ cho thấy trạng thái tình bạn hiện tại",
@@ -104,8 +106,7 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
         "Hào động chỉ ra điểm cần chú ý hoặc cải thiện"
       ],
       family: [
-        "Thể: bạn và vị trí của bạn trong gia đình",
-        "Dụng: người thân khác và nhu cầu của họ",
+        "Xem xét vị trí của bạn trong gia đình và nhu cầu của người thân khác",
         "Hòa khí gia đình phụ thuộc vào sự thấu hiểu lẫn nhau"
       ]
     },
@@ -116,16 +117,16 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
   },
 
   health: {
-    simpleExplanation: "Quan sát tình trạng cơ thể và tinh thần, nhưng KHÔNG thay thế chẩn đoán y tế. Nếu có vấn đề, hãy đi khám bác sĩ.",
+    simpleExplanation: "Quan sát tình trạng cơ thể và tinh thần. Kết quả này KHÔNG thay thế chẩn đoán y tế. Nếu có vấn đề sức khỏe, hãy đi khám bác sĩ.",
     keyInsights: [
       "Quẻ chủ cho thấy tình trạng sức khỏe hiện tại",
-      "Quẻ hỗ gợi ý những yếu tố ẩn (stress, thói quen, môi trường)",
-      "Quẻ biến chỉ ra hướng phục hồi hoặc cần chú ý"
+      "Quẻ hỗ gợi ý những yếu tố ẩn: stress, thói quen, môi trường",
+      "Quẻ biến chỉ ra hướng cần chú ý hoặc cải thiện"
     ],
     contextualGuidance: {
       prevention: [
         "Giữ thói quen sinh hoạt điều độ: ngủ đủ, ăn uống cân bằng, vận động",
-        "Quẻ chỉ ra những khía cạnh cần chú ý, nhưng không phải chẩn đoán"
+        "Quẻ chỉ ra những khía cạnh cần chú ý, nhưng không phải chẩn đoán bệnh"
       ],
       recovery: [
         "Nếu đang điều trị, hãy tuân theo hướng dẫn của bác sĩ",
@@ -133,22 +134,22 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
       ],
       mentalHealth: [
         "Stress, lo âu, mệt mỏi có thể ảnh hưởng đến sức khỏe toàn thân",
-        "Nên tìm cách thư giãn, tập trung và lắng nghe cơ thể"
+        "Tìm cách thư giãn, tập trung và lắng nghe cơ thể"
       ]
     },
     warningNotes: [
-      "⚠️ QUAN TRỌNG: Kết quả này KHÔNG thay thế chẩn đoán y tế",
+      "QUAN TRỌNG: Kết quả này KHÔNG thay thế chẩn đoán y tế",
       "Nếu có triệu chứng bất thường hoặc kéo dài, hãy đi khám bác sĩ ngay",
-      "Tự quan sát sức khỏe là tốt, nhưng không nên tự chẩn đoán"
+      "Tự quan sát sức khỏe là tốt, nhưng không nên tự chẩn đoán hoặc tự kê toa"
     ]
   },
 
   major_finance: {
-    simpleExplanation: "Đây là quyết định tài chính quan trọng. Quẻ chỉ là tham khảo, KHÔNG nên dựa vào nó để đầu tư hoặc vay mượn lớn.",
+    simpleExplanation: "Đây là quyết định tài chính quan trọng. Quẻ chỉ là tham khảo để suy ngẫm. KHÔNG nên dựa vào nó để đầu tư hoặc vay mượn lớn.",
     keyInsights: [
-      "Thể: tài chính hiện tại, khả năng của bạn",
-      "Dụng: cơ hội, rủi ro, điều kiện thị trường",
-      "Quan hệ thể-dụng cho thấy liệu bạn sẵn sàng hay cần chuẩn bị thêm"
+      "Tài chính hiện tại và khả năng của bạn (thể) so với cơ hội và rủi ro (dụng)",
+      "Mối quan hệ này cho thấy liệu bạn sẵn sàng hay cần chuẩn bị thêm",
+      "Phân tích thực tế luôn quan trọng hơn bất kỳ dự báo nào"
     ],
     contextualGuidance: {
       investment: [
@@ -166,7 +167,7 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
       ]
     },
     warningNotes: [
-      "⚠️ CẢNH BÁO: Đây là vấn đề tài chính quan trọng",
+      "CẢNH BÁO: Đây là vấn đề tài chính quan trọng",
       "KHÔNG nên dựa vào kết quả này để quyết định đầu tư, vay mượn, hoặc kinh doanh",
       "Hãy tham khảo chuyên gia tài chính, luật sư, hoặc người có kinh nghiệm",
       "Phân tích thực tế (số liệu, thị trường, rủi ro) quan trọng hơn bất kỳ dự báo nào"
@@ -177,7 +178,7 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
     simpleExplanation: "Cân nhắc kỹ lưỡng trước khi chi tiêu hoặc quyết định tài chính nhỏ. Tránh quyết định nóng vội.",
     keyInsights: [
       "Quẻ chủ cho thấy tình trạng tài chính hiện tại",
-      "Quẻ hỗ gợi ý những yếu tố cần xem xét (nhu cầu vs muốn)",
+      "Quẻ hỗ gợi ý những yếu tố cần xem xét: nhu cầu thực sự hay chỉ muốn",
       "Quẻ biến chỉ ra hậu quả hoặc lợi ích dài hạn"
     ],
     contextualGuidance: {
@@ -200,7 +201,7 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
     simpleExplanation: "Kết quả học tập phụ thuộc nhiều vào sự chuẩn bị, độ bền, và phương pháp học. Quẻ gợi ý hướng cải thiện.",
     keyInsights: [
       "Quẻ chủ cho thấy tình trạng học tập hiện tại",
-      "Quẻ hỗ gợi ý những khía cạnh cần chú ý (phương pháp, thời gian, tâm lý)",
+      "Quẻ hỗ gợi ý những khía cạnh cần chú ý: phương pháp, thời gian, tâm lý",
       "Quẻ biến chỉ ra kết quả có thể đạt được với sự chuẩn bị"
     ],
     contextualGuidance: {
@@ -209,7 +210,7 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
         "Quẻ có thể gợi ý cách tiếp cận hoặc điều cần chú ý"
       ],
       learning: [
-        "Tìm phương pháp học phù hợp với bạn (nghe, đọc, viết, thực hành)",
+        "Tìm phương pháp học phù hợp với bạn: nghe, đọc, viết, thực hành",
         "Kiên trì và đều đặn quan trọng hơn học nhiều một lần"
       ]
     },
@@ -243,7 +244,7 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
   },
 
   choice: {
-    simpleExplanation: "So sánh ưu/nhược điểm của từng phương án, sau đó quyết định dựa trên phân tích thực tế, không chỉ cảm tính.",
+    simpleExplanation: "So sánh ưu và nhược điểm của từng phương án, sau đó quyết định dựa trên phân tích thực tế, không chỉ cảm tính.",
     keyInsights: [
       "Quẻ chủ cho thấy phương án A hoặc tình trạng hiện tại",
       "Quẻ hỗ cho thấy phương án B hoặc khía cạnh khác",
@@ -251,7 +252,7 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
     ],
     contextualGuidance: {
       decisionMaking: [
-        "Liệt kê ưu/nhược điểm của từng phương án",
+        "Liệt kê ưu và nhược điểm của từng phương án",
         "Xem xét giá trị của bạn: cái gì quan trọng nhất?",
         "Tưởng tượng kết quả 1 năm sau, 5 năm sau"
       ]
@@ -288,22 +289,31 @@ export const questionTypeKnowledge: Record<string, KnowledgeBase> = {
   family: {
     simpleExplanation: "Nhìn vào sự cân bằng giữa các thành viên gia đình: vai trò, nhu cầu, và cách giao tiếp. Hòa khí gia đình phụ thuộc vào sự thấu hiểu lẫn nhau.",
     keyInsights: [
-      "Thể: bạn và vị trí của bạn trong gia đình",
-      "Dụng: người thân khác và nhu cầu của họ",
-      "Quan hệ thể-dụng cho thấy liệu có hòa hợp hay cần điều chỉnh"
+      "Vị trí của bạn trong gia đình (thể) so với nhu cầu của người thân khác (dụng)",
+      "Mối quan hệ này cho thấy liệu có hòa hợp hay cần điều chỉnh",
+      "Giao tiếp cởi mở thường là chìa khóa để giải quyết xung đột"
     ],
     contextualGuidance: {
       parentChild: [
         "Hiểu rõ kỳ vọng và nhu cầu của cả hai bên",
-        "Giao tiếp cởi mở thường giải quyết được nhiều xung đột"
+        "Giao tiếp cởi mở thường giải quyết được nhiều xung đột",
+        "Tôn trọng quan điểm của nhau là nền tảng"
       ],
       siblings: [
         "Quẻ chủ cho thấy trạng thái hiện tại của mối quan hệ",
-        "Quẻ biến gợi ý cách mối quan hệ có thể phát triển"
+        "Quẻ biến gợi ý cách mối quan hệ có thể phát triển",
+        "Hào động chỉ ra điểm cần chú ý hoặc cải thiện"
       ],
       elderCare: [
         "Tôn trọng và lắng nghe là nền tảng",
         "Cân bằng giữa chăm sóc và giữ gìn độc lập của người cao tuổi"
+      ],
+      conflict: [
+        "Xung đột gia đình thường bắt nguồn từ sự hiểu lầm hoặc nhu cầu chưa được thỏa mãn",
+        "Bớt tranh hơn thua, tập trung vào giữ hòa khí",
+        "Không quyết định vấn đề lớn khi cảm xúc cao - chờ đủ bình tĩnh",
+        "Xem ai đang phải nhường quá nhiều, cân bằng lại sự công bằng",
+        "Tích lũy lại niềm tin bằng những hành động nhỏ, kiên trì"
       ]
     },
     warningNotes: [

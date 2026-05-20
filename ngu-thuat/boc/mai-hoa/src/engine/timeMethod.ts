@@ -31,10 +31,11 @@ export function calculateByTime(input: TimeInput): CalculationResult {
   // upper = (năm + tháng + ngày) % 8
   const upperRaw = yearBranch + month + day;
   const upperIndex = mod1(upperRaw, 8);
+  const upperRemainder = upperRaw % 8;
   derivationSteps.push({
     step: "Tính Thượng quái",
-    formula: "(năm chi + tháng + ngày) mod 8, nếu chia hết lấy 8",
-    calculation: `(${yearBranch} + ${month} + ${day}) mod 8 = ${upperRaw} mod 8`,
+    formula: "(năm chi + tháng + ngày) chia lấy dư cho 8",
+    calculation: `(${yearBranch} + ${month} + ${day}) = ${upperRaw}. Chia ${upperRaw} cho 8 được dư ${upperRemainder === 0 ? '0, theo quy tắc Mai Hoa lấy 8' : upperRemainder}`,
     result: upperIndex
   });
   
@@ -42,10 +43,11 @@ export function calculateByTime(input: TimeInput): CalculationResult {
   // lower = (năm + tháng + ngày + giờ) % 8
   const lowerRaw = yearBranch + month + day + hourBranch;
   const lowerIndex = mod1(lowerRaw, 8);
+  const lowerRemainder = lowerRaw % 8;
   derivationSteps.push({
     step: "Tính Hạ quái",
-    formula: "(năm chi + tháng + ngày + giờ chi) mod 8, nếu chia hết lấy 8",
-    calculation: `(${yearBranch} + ${month} + ${day} + ${hourBranch}) mod 8 = ${lowerRaw} mod 8`,
+    formula: "(năm chi + tháng + ngày + giờ chi) chia lấy dư cho 8",
+    calculation: `(${yearBranch} + ${month} + ${day} + ${hourBranch}) = ${lowerRaw}. Chia ${lowerRaw} cho 8 được dư ${lowerRemainder === 0 ? '0, theo quy tắc Mai Hoa lấy 8' : lowerRemainder}`,
     result: lowerIndex
   });
   
@@ -53,10 +55,11 @@ export function calculateByTime(input: TimeInput): CalculationResult {
   // moving = (năm + tháng + ngày + giờ) % 6
   const movingRaw = yearBranch + month + day + hourBranch;
   const movingLine = mod1(movingRaw, 6);
+  const movingRemainder = movingRaw % 6;
   derivationSteps.push({
     step: "Tính Hào động",
-    formula: "(năm chi + tháng + ngày + giờ chi) mod 6, nếu chia hết lấy 6",
-    calculation: `(${yearBranch} + ${month} + ${day} + ${hourBranch}) mod 6 = ${movingRaw} mod 6`,
+    formula: "(năm chi + tháng + ngày + giờ chi) chia lấy dư cho 6",
+    calculation: `(${yearBranch} + ${month} + ${day} + ${hourBranch}) = ${movingRaw}. Chia ${movingRaw} cho 6 được dư ${movingRemainder === 0 ? '0, theo quy tắc Mai Hoa lấy 6' : movingRemainder}`,
     result: movingLine
   });
   

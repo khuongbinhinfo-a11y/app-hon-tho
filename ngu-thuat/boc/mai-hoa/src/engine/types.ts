@@ -90,3 +90,18 @@ export type QuestionType = {
   riskLevel: QuestionRiskLevel;
   guidanceTone: string;
 };
+
+export interface InterpretationSection {
+  title: string;
+  content: string[];
+}
+
+export interface StructuredInterpretation {
+  summary: string[];
+  contextualAnalysis: string[];
+  thingsToObserve: string[];
+  lightGuidance: string[];
+  safetyWarnings: string[];
+  iChingDetails: string[];
+  calculationDetails: string[];
+}

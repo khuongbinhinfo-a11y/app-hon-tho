@@ -1,4 +1,4 @@
-import type { FiveElementsRelation, CalculationResult, QuestionType } from "./types";
+import type { FiveElementsRelation, CalculationResult, QuestionType, StructuredInterpretation } from "./types";
 import { getKnowledgeForQuestion, getElementExplanation, getRelationshipMeaning } from "./interpretation-knowledge";
 
 const elementCycle: Record<string, string> = {
@@ -36,39 +36,18 @@ export function getFiveElementsRelation(element1: string, element2: string): Fiv
   return { relation: "same", description: "Không xác định" };
 }
 
-export function generateSafeInterpretation(result: CalculationResult): string[] {
-  const interpretations: string[] = [];
-  const { primaryHexagram, mutualHexagram, changedHexagram, movingLine, upperTrigram, lowerTrigram } = result;
+function buildBodyUsageExplanation(result: CalculationResult): string {
+  const { movingLine, upperTrigram, lowerTrigram } = result;
 
-  // Primary hexagram interpretation
-  interpretations.push(`**Quẻ chủ ${primaryHexagram.name_vi}:** ${primaryHexagram.safe_interpretation}`);
-
-  // Body-Usage relation with simple explanation
-  let bodyUsageText: string;
   if (movingLine >= 4) {
     const bodyUsage = getFiveElementsRelation(upperTrigram.element, lowerTrigram.element);
     const relationMeaning = getRelationshipMeaning(bodyUsage.relation);
-    bodyUsageText = `**Thể-Dụng:** ${upperTrigram.name_vi} (${getElementExplanation(upperTrigram.element)}) → ${lowerTrigram.name_vi} (${getElementExplanation(lowerTrigram.element)}) = ${relationMeaning}`;
+    return `Mối quan hệ giữa ${upperTrigram.name_vi} (${getElementExplanation(upperTrigram.element)}) và ${lowerTrigram.name_vi} (${getElementExplanation(lowerTrigram.element)}): ${relationMeaning}. Điều này gợi ý cách các yếu tố trong tình thế hiện tại tương tác với nhau.`;
   } else {
     const bodyUsage = getFiveElementsRelation(lowerTrigram.element, upperTrigram.element);
     const relationMeaning = getRelationshipMeaning(bodyUsage.relation);
-    bodyUsageText = `**Thể-Dụng:** ${lowerTrigram.name_vi} (${getElementExplanation(lowerTrigram.element)}) → ${upperTrigram.name_vi} (${getElementExplanation(upperTrigram.element)}) = ${relationMeaning}`;
+    return `Mối quan hệ giữa ${lowerTrigram.name_vi} (${getElementExplanation(lowerTrigram.element)}) và ${upperTrigram.name_vi} (${getElementExplanation(upperTrigram.element)}): ${relationMeaning}. Điều này gợi ý cách các yếu tố trong tình thế hiện tại tương tác với nhau.`;
   }
-  interpretations.push(bodyUsageText);
-
-  // Mutual hexagram interpretation
-  interpretations.push(`**Quẻ hỗ ${mutualHexagram.name_vi}:** ${mutualHexagram.safe_interpretation}`);
-
-  // Changed hexagram interpretation
-  interpretations.push(`**Quẻ biến ${changedHexagram.name_vi}:** ${changedHexagram.safe_interpretation}`);
-
-  // Moving line guidance
-  interpretations.push(`Hào động ${movingLine} cho thấy điểm biến chuyển trong tình thế hiện tại.`);
-
-  // Cautionary note
-  interpretations.push("Đây là kết quả tham khảo. Nên kiểm chứng với điều kiện thực tế trước khi quyết định.");
-
-  return interpretations;
 }
 
 export function getReflectionQuestions(questionType?: QuestionType): string[] {
@@ -90,42 +69,62 @@ export function getReflectionQuestions(questionType?: QuestionType): string[] {
 export function generateContextualInterpretation(
   result: CalculationResult,
   questionType?: QuestionType
-): string[] {
-  const interpretations = generateSafeInterpretation(result);
+): StructuredInterpretation {
+  const { primaryHexagram, mutualHexagram, changedHexagram, movingLine } = result;
+  const knowledge = questionType ? getKnowledgeForQuestion(questionType) : null;
 
-  if (!questionType) return interpretations;
+  const summary: string[] = [];
+  const contextualAnalysis: string[] = [];
+  const thingsToObserve: string[] = [];
+  const lightGuidance: string[] = [];
+  const safetyWarnings: string[] = [];
+  const iChingDetails: string[] = [];
+  const calculationDetails: string[] = [];
 
-  const knowledge = getKnowledgeForQuestion(questionType);
-  if (!knowledge) {
-    const contextPrefix = `**Bối cảnh: ${questionType.label}**`;
-    const toneNote = `*Hướng dẫn: ${questionType.guidanceTone}*`;
-    return [contextPrefix, toneNote, "", ...interpretations];
+  if (knowledge) {
+    summary.push(knowledge.simpleExplanation);
   }
 
-  const contextPrefix = `**Bối cảnh: ${questionType.label}**`;
-  const toneNote = `*Hướng dẫn: ${questionType.guidanceTone}*`;
-  const simpleExpl = `**Cách tiếp cận:** ${knowledge.simpleExplanation}`;
+  summary.push(`Quẻ chủ ${primaryHexagram.name_vi} cho thấy: ${primaryHexagram.safe_interpretation}`);
 
-  const keyInsightsText = knowledge.keyInsights.length > 0
-    ? `**Những điểm chính:**\n${knowledge.keyInsights.map(k => `- ${k}`).join("\n")}`
-    : "";
+  contextualAnalysis.push(buildBodyUsageExplanation(result));
+  contextualAnalysis.push(`Quẻ hỗ ${mutualHexagram.name_vi} gợi ý những khía cạnh ẩn hoặc phía sau tình thế.`);
+  contextualAnalysis.push(`Quẻ biến ${changedHexagram.name_vi} chỉ ra hướng phát triển tiếp theo nếu tình thế tiếp tục.`);
 
-  const warningText = knowledge.warningNotes.length > 0
-    ? `**Cảnh báo:**\n${knowledge.warningNotes.map(w => `- ${w}`).join("\n")}`
-    : "";
-
-  const result_array = [contextPrefix, toneNote, "", simpleExpl];
-
-  if (keyInsightsText) {
-    result_array.push("", keyInsightsText);
+  if (knowledge && knowledge.keyInsights.length > 0) {
+    thingsToObserve.push(...knowledge.keyInsights);
   }
 
-  result_array.push("", "**Diễn giải chi tiết:**", "");
-  result_array.push(...interpretations);
+  thingsToObserve.push(`Hào động ${movingLine} cho thấy điểm biến chuyển trong tình thế hiện tại.`);
 
-  if (warningText) {
-    result_array.push("", warningText);
+  if (knowledge && knowledge.contextualGuidance) {
+    const guidanceValues = Object.values(knowledge.contextualGuidance).flat();
+    lightGuidance.push(...guidanceValues.slice(0, 3));
   }
 
-  return result_array;
+  if (knowledge && knowledge.warningNotes.length > 0) {
+    safetyWarnings.push(...knowledge.warningNotes);
+  }
+
+  safetyWarnings.push("Đây là kết quả tham khảo. Nên kiểm chứng với điều kiện thực tế trước khi quyết định.");
+
+  iChingDetails.push(`Quẻ chủ: ${primaryHexagram.name_vi} (${primaryHexagram.name_han})`);
+  iChingDetails.push(`Quẻ hỗ: ${mutualHexagram.name_vi} (${mutualHexagram.name_han})`);
+  iChingDetails.push(`Quẻ biến: ${changedHexagram.name_vi} (${changedHexagram.name_han})`);
+  iChingDetails.push(`Thượng quái: ${result.upperTrigram.name_vi} (${result.upperTrigram.element})`);
+  iChingDetails.push(`Hạ quái: ${result.lowerTrigram.name_vi} (${result.lowerTrigram.element})`);
+  iChingDetails.push(`Hào động: ${movingLine}`);
+
+  calculationDetails.push(`Phương pháp: ${result.methodType === "time" ? "Theo thời gian" : "Theo 3 số"}`);
+  calculationDetails.push(`Bộ quy tắc: ${result.rulesetId}`);
+
+  return {
+    summary,
+    contextualAnalysis,
+    thingsToObserve,
+    lightGuidance,
+    safetyWarnings,
+    iChingDetails,
+    calculationDetails
+  };
 }

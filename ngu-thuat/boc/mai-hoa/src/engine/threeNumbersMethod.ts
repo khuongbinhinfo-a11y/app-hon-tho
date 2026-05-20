@@ -17,30 +17,33 @@ export function calculateByThreeNumbers(input: ThreeNumbersInput): CalculationRe
   // Calculate upper trigram (thượng quái)
   // upper = num1 % 8
   const upperIndex = mod1(num1, 8);
+  const upperRemainder = num1 % 8;
   derivationSteps.push({
     step: "Tính Thượng quái",
-    formula: "Số 1 mod 8, nếu chia hết lấy 8",
-    calculation: `${num1} mod 8 = ${upperIndex}`,
+    formula: "Số 1 chia lấy dư cho 8",
+    calculation: `${num1} chia cho 8 được dư ${upperRemainder === 0 ? '0, theo quy tắc Mai Hoa lấy 8' : upperRemainder}`,
     result: upperIndex
   });
   
   // Calculate lower trigram (hạ quái)
   // lower = num2 % 8
   const lowerIndex = mod1(num2, 8);
+  const lowerRemainder = num2 % 8;
   derivationSteps.push({
     step: "Tính Hạ quái",
-    formula: "Số 2 mod 8, nếu chia hết lấy 8",
-    calculation: `${num2} mod 8 = ${lowerIndex}`,
+    formula: "Số 2 chia lấy dư cho 8",
+    calculation: `${num2} chia cho 8 được dư ${lowerRemainder === 0 ? '0, theo quy tắc Mai Hoa lấy 8' : lowerRemainder}`,
     result: lowerIndex
   });
   
   // Calculate moving line (hào động)
   // moving = num3 % 6
   const movingLine = mod1(num3, 6);
+  const movingRemainder = num3 % 6;
   derivationSteps.push({
     step: "Tính Hào động",
-    formula: "Số 3 mod 6, nếu chia hết lấy 6",
-    calculation: `${num3} mod 6 = ${movingLine}`,
+    formula: "Số 3 chia lấy dư cho 6",
+    calculation: `${num3} chia cho 6 được dư ${movingRemainder === 0 ? '0, theo quy tắc Mai Hoa lấy 6' : movingRemainder}`,
     result: movingLine
   });
   

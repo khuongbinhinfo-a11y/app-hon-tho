@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { CalculationResult, TimeInput, ThreeNumbersInput, QuestionType } from "./engine";
+import type { CalculationResult, TimeInput, ThreeNumbersInput, QuestionType, StructuredInterpretation } from "./engine";
 import { calculateByTime, calculateByThreeNumbers, generateContextualInterpretation, getReflectionQuestions } from "./engine";
 import earthlyBranches from "./data/earthly_branches.json";
 import safetyCopy from "./data/safety_copy.json";
@@ -7,16 +7,10 @@ import { questionTypes } from "./data/question_types";
 
 type Method = "time" | "three_numbers";
 
-function cleanDisplayText(text: string) {
-  return text
-    .replace(/\*\*/g, "")
-    .replace(/\*/g, "")
-    .trim();
-}
-
 function App() {
   const [method, setMethod] = useState<Method>("time");
   const [result, setResult] = useState<CalculationResult | null>(null);
+  const [interpretation, setInterpretation] = useState<StructuredInterpretation | null>(null);
   const [question, setQuestion] = useState("");
   const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
 
@@ -25,13 +19,14 @@ function App() {
   const [month, setMonth] = useState<number>(1);
   const [day, setDay] = useState<number>(1);
   const [hourBranch, setHourBranch] = useState<number>(1);
-  
+
   // Three numbers input state
   const [num1, setNum1] = useState<number>(1);
   const [num2, setNum2] = useState<number>(2);
   const [num3, setNum3] = useState<number>(3);
-  
+
   const handleCalculate = () => {
+    let calcResult: CalculationResult;
     if (method === "time") {
       const input: TimeInput = {
         yearBranch,
@@ -39,37 +34,38 @@ function App() {
         day,
         hourBranch
       };
-      setResult(calculateByTime(input));
+      calcResult = calculateByTime(input);
     } else {
       const input: ThreeNumbersInput = {
         num1,
         num2,
         num3
       };
-      setResult(calculateByThreeNumbers(input));
+      calcResult = calculateByThreeNumbers(input);
     }
+    setResult(calcResult);
+    setInterpretation(generateContextualInterpretation(calcResult, selectedQuestionType || undefined));
   };
-  
+
   const getCurrentTime = () => {
     const now = new Date();
     // Approximate lunar date (simplified for demo)
     const branchIndex = (now.getFullYear() - 4) % 12;
     const hour = now.getHours();
     const hourBranchIndex = Math.floor((hour + 1) / 2) % 12 || 12;
-    
+
     setYearBranch(branchIndex === 0 ? 12 : branchIndex);
     setMonth(now.getMonth() + 1);
     setDay(now.getDate());
     setHourBranch(hourBranchIndex === 0 ? 12 : hourBranchIndex);
   };
-  
+
   const getRandomNumbers = () => {
     setNum1(Math.floor(Math.random() * 100) + 1);
     setNum2(Math.floor(Math.random() * 100) + 1);
     setNum3(Math.floor(Math.random() * 100) + 1);
   };
-  
-  const interpretations = result ? generateContextualInterpretation(result, selectedQuestionType || undefined) : [];
+
   const reflectionQuestions = getReflectionQuestions(selectedQuestionType || undefined);
   
   return (
@@ -338,16 +334,95 @@ function App() {
               </div>
             </details>
             
-            {/* Interpretation */}
-            <div className="interpretation-section">
-              <h3>Diễn giải tham khảo</h3>
-              <div className="interpretation-content">
-                {interpretations.map((interp, index) => (
-                  <p key={index} className="interpretation-item">{cleanDisplayText(interp)}</p>
-                ))}
-              </div>
-            </div>
-            
+            {/* Structured Interpretation */}
+            {interpretation && (
+              <>
+                {/* Summary */}
+                {interpretation.summary.length > 0 && (
+                  <div className="interpretation-section summary-section">
+                    <h3>Tóm tắt dễ hiểu</h3>
+                    <div className="section-content">
+                      {interpretation.summary.map((item, index) => (
+                        <p key={index} className="interpretation-item">{item}</p>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Contextual Analysis */}
+                {interpretation.contextualAnalysis.length > 0 && (
+                  <div className="interpretation-section analysis-section">
+                    <h3>Luận theo bối cảnh</h3>
+                    <div className="section-content">
+                      {interpretation.contextualAnalysis.map((item, index) => (
+                        <p key={index} className="interpretation-item">{item}</p>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Things to Observe */}
+                {interpretation.thingsToObserve.length > 0 && (
+                  <div className="interpretation-section observe-section">
+                    <h3>Điều nên quan sát</h3>
+                    <ul className="section-list">
+                      {interpretation.thingsToObserve.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Light Guidance */}
+                {interpretation.lightGuidance.length > 0 && (
+                  <div className="interpretation-section guidance-section">
+                    <h3>Gợi ý hành động nhẹ</h3>
+                    <ul className="section-list">
+                      {interpretation.lightGuidance.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Safety Warnings */}
+                {interpretation.safetyWarnings.length > 0 && (
+                  <div className="interpretation-section warnings-section">
+                    <h3>Cảnh báo an toàn</h3>
+                    <ul className="section-list warning-list">
+                      {interpretation.safetyWarnings.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* I Ching Details */}
+                {interpretation.iChingDetails.length > 0 && (
+                  <div className="interpretation-section iching-section">
+                    <h3>Chi tiết Dịch học</h3>
+                    <ul className="section-list">
+                      {interpretation.iChingDetails.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {/* Calculation Details */}
+                {interpretation.calculationDetails.length > 0 && (
+                  <div className="interpretation-section calc-section">
+                    <h3>Chi tiết cách tính</h3>
+                    <ul className="section-list">
+                      {interpretation.calculationDetails.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </>
+            )}
+
             {/* Reflection Questions */}
             <div className="reflection-section">
               <h3>Câu hỏi phản tư</h3>
@@ -357,18 +432,6 @@ function App() {
                 ))}
               </ul>
             </div>
-            
-            {/* Warnings */}
-            {result.warnings.length > 0 && (
-              <div className="warnings-section">
-                <h3>Lưu ý</h3>
-                <ul className="warnings-list">
-                  {result.warnings.map((w, index) => (
-                    <li key={index}>{w}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         )}
         
