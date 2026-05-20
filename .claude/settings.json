@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm -rf \"d:/Wep_Yhocnhanai/Web_Goc_Binh_Yen/app-hontho/apps/web/public/nguthuat/y/yhoc/\"*)",
+      "Bash(cp -r \"d:/Wep_Yhocnhanai/Web_Goc_Binh_Yen/app-hontho/ngu-thuat/y/yhoc/dist/\"* \"d:/Wep_Yhocnhanai/Web_Goc_Binh_Yen/app-hontho/apps/web/public/nguthuat/y/yhoc/\")",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
+    ]
+  }
+}

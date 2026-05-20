@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Select-String \"d:\\\\Wep_Yhocnhanai\\\\Web_Goc_Binh_Yen\\\\app-hontho\\\\ngu-thuat\\\\y\\\\yhoc\\\\src\\\\data\\\\yhoc\\\\folkCare.ts\" -Pattern \"^\\\\s+id: '\")",
+      "Bash(Measure-Object)",
+      "Bash(grep -c \"^\\\\s\\\\+id: '[a-z_]*',$\" \"d:/Wep_Yhocnhanai/Web_Goc_Binh_Yen/app-hontho/ngu-thuat/y/yhoc/src/data/yhoc/folkCare.ts\")",
+      "Bash(grep -n \"^  {$\" \"d:/Wep_Yhocnhanai/Web_Goc_Binh_Yen/app-hontho/ngu-thuat/y/yhoc/src/data/yhoc/folkCare.ts\")"
+    ]
+  }
+}
