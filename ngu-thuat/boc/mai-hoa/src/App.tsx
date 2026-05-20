@@ -7,6 +7,13 @@ import { questionTypes } from "./data/question_types";
 
 type Method = "time" | "three_numbers";
 
+function cleanDisplayText(text: string) {
+  return text
+    .replace(/\*\*/g, "")
+    .replace(/\*/g, "")
+    .trim();
+}
+
 function App() {
   const [method, setMethod] = useState<Method>("time");
   const [result, setResult] = useState<CalculationResult | null>(null);
@@ -312,8 +319,8 @@ function App() {
             </div>
             
             {/* Derivation Steps */}
-            <div className="derivation-section">
-              <h3>Vết tính toán</h3>
+            <details className="derivation-section">
+              <summary><h3>Vết tính toán</h3></summary>
               <div className="derivation-steps">
                 {result.derivationSteps.map((step, index) => (
                   <div key={index} className="derivation-step">
@@ -329,14 +336,14 @@ function App() {
                   </div>
                 ))}
               </div>
-            </div>
+            </details>
             
             {/* Interpretation */}
             <div className="interpretation-section">
               <h3>Diễn giải tham khảo</h3>
               <div className="interpretation-content">
                 {interpretations.map((interp, index) => (
-                  <p key={index} className="interpretation-item">{interp}</p>
+                  <p key={index} className="interpretation-item">{cleanDisplayText(interp)}</p>
                 ))}
               </div>
             </div>
