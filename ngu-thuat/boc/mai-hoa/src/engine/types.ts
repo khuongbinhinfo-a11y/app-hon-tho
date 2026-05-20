@@ -81,3 +81,12 @@ export interface FiveElementsRelation {
   relation: "sinh" | "khac" | "bi-sinh" | "bi-khac" | "same";
   description: string;
 }
+
+export type QuestionRiskLevel = "low" | "medium" | "high";
+
+export type QuestionType = {
+  id: string;
+  label: string;
+  riskLevel: QuestionRiskLevel;
+  guidanceTone: string;
+};

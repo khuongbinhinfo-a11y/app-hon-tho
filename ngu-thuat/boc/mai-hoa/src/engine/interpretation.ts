@@ -1,4 +1,4 @@
-import { FiveElementsRelation, CalculationResult } from "./types";
+import type { FiveElementsRelation, CalculationResult, QuestionType } from "./types";
 
 const elementCycle: Record<string, string> = {
   "Kim": "Thủy",
@@ -70,11 +70,83 @@ export function generateSafeInterpretation(result: CalculationResult): string[] 
   return interpretations;
 }
 
-export function getReflectionQuestions(): string[] {
-  return [
+export function getReflectionQuestions(questionType?: QuestionType): string[] {
+  const baseQuestions = [
     "Bạn đã cân nhắc đầy đủ các yếu tố thực tế chưa?",
     "Quyết định này có ảnh hưởng đến người khác không?",
     "Bạn có đang tìm kiếm một câu trả lời cụ thể thay vì hiểu rõ tình thế?",
     "Bạn có sẵn sàng chịu trách nhiệm với quyết định của mình không?"
   ];
+
+  if (!questionType) return baseQuestions;
+
+  // Add context-specific questions based on question type
+  const contextualQuestions: Record<string, string[]> = {
+    career: [
+      "Bạn đã đánh giá đầy đủ năng lực bản thân và điều kiện thị trường chưa?",
+      "Có thể cần tham khảo ý kiến đồng nghiệp hoặc cấp trên trước quyết định."
+    ],
+    relationship: [
+      "Bạn đã lắng nghe quan điểm của đối phương chưa?",
+      "Giao tiếp cởi mở thường quan trọng hơn quyết định đơn phương."
+    ],
+    health: [
+      "⚠️ Kết quả này KHÔNG thay thế chẩn đoán y tế.",
+      "Nếu có triệu chứng bất thường, hãy đi khám bác sĩ càng sớm càng tốt.",
+      "Tự quan sát sức khỏe và giữ thói quen sinh hoạt điều độ là cần thiết."
+    ],
+    major_finance: [
+      "⚠️ Đây là vấn đề tài chính quan trọng.",
+      "NÊN tham khảo ý kiến chuyên gia tài chính trước khi quyết định.",
+      "Không nên dựa vào kết quả này để đầu tư hoặc quyết định tài chính lớn."
+    ],
+    small_finance: [
+      "Cân nhắc kỹ lưỡng trước khi chi tiêu.",
+      "Tránh quyết định nóng vội về tiền bạc."
+    ],
+    study: [
+      "Kết quả học tập phụ thuộc nhiều vào sự chuẩn bị và độ bền.",
+      "Có thể cần điều chỉnh phương pháp học phù hợp."
+    ],
+    travel: [
+      "Kiểm tra kỹ các giấy tờ cần thiết trước khi đi.",
+      "Chuẩn bị phương án dự phòng cho tình huống bất ngờ."
+    ],
+    choice: [
+      "Hãy liệt kê ưu/nhược điểm của từng phương án.",
+      "Quyết định cuối cùng nên dựa trên phân tích thực tế."
+    ],
+    timing: [
+      "Điều kiện chín muồi thường quan trọng hơn thời điểm tuyệt đối.",
+      "Cần cân nhắc các yếu tố khách quan xung quanh."
+    ]
+  };
+
+  const additional = contextualQuestions[questionType.id] || [];
+  return [...baseQuestions, ...additional];
+}
+
+export function generateContextualInterpretation(
+  result: CalculationResult,
+  questionType?: QuestionType
+): string[] {
+  const interpretations = generateSafeInterpretation(result);
+
+  if (!questionType) return interpretations;
+
+  // Add contextual guidance based on question type
+  const contextPrefix = `**Bối cảnh: ${questionType.label}**`;
+  const toneNote = `*Hướng dẫn: ${questionType.guidanceTone}*`;
+
+  // Add risk level warning for high-risk questions
+  if (questionType.riskLevel === "high") {
+    if (questionType.id === "health") {
+      interpretations.push("⚠️ **Cảnh báo sức khỏe:** Kết quả này chỉ là tham khảo tượng số, hoàn toàn không thay thế chẩn đoán y tế. Nếu có vấn đề sức khỏe, hãy đi khám bác sĩ.");
+    } else if (questionType.id === "major_finance") {
+      interpretations.push("⚠️ **Cảnh báo tài chính:** Đây là quyết định tài chính quan trọng. Vui lòng tham khảo ý kiến chuyên gia tài chính chuyên nghiệp. Không nên dựa vào kết quả này để đầu tư.");
+    }
+  }
+
+  // Insert context at the beginning
+  return [contextPrefix, toneNote, "", ...interpretations];
 }

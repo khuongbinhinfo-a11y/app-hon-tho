@@ -1,8 +1,9 @@
 import { useState } from "react";
-import type { CalculationResult, TimeInput, ThreeNumbersInput } from "./engine";
-import { calculateByTime, calculateByThreeNumbers, generateSafeInterpretation, getReflectionQuestions } from "./engine";
+import type { CalculationResult, TimeInput, ThreeNumbersInput, QuestionType } from "./engine";
+import { calculateByTime, calculateByThreeNumbers, generateContextualInterpretation, getReflectionQuestions } from "./engine";
 import earthlyBranches from "./data/earthly_branches.json";
 import safetyCopy from "./data/safety_copy.json";
+import { questionTypes } from "./data/question_types";
 
 type Method = "time" | "three_numbers";
 
@@ -10,7 +11,8 @@ function App() {
   const [method, setMethod] = useState<Method>("time");
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [question, setQuestion] = useState("");
-  
+  const [selectedQuestionType, setSelectedQuestionType] = useState<QuestionType | null>(null);
+
   // Time input state
   const [yearBranch, setYearBranch] = useState<number>(1);
   const [month, setMonth] = useState<number>(1);
@@ -60,8 +62,8 @@ function App() {
     setNum3(Math.floor(Math.random() * 100) + 1);
   };
   
-  const interpretations = result ? generateSafeInterpretation(result) : [];
-  const reflectionQuestions = getReflectionQuestions();
+  const interpretations = result ? generateContextualInterpretation(result, selectedQuestionType || undefined) : [];
+  const reflectionQuestions = getReflectionQuestions(selectedQuestionType || undefined);
   
   return (
     <div className="mai-hoa-app">
@@ -123,14 +125,41 @@ function App() {
         <div className="input-section">
           <h3>Nhập thông tin</h3>
           
+          <div className="question-type-selector">
+            <label htmlFor="question-type">Loại câu hỏi / Chủ đề</label>
+            <select
+              id="question-type"
+              value={selectedQuestionType?.id || ""}
+              onChange={(e) => {
+                const selected = questionTypes.find(q => q.id === e.target.value);
+                setSelectedQuestionType(selected || null);
+              }}
+            >
+              <option value="">-- Chọn loại câu hỏi --</option>
+              {questionTypes.map((q) => (
+                <option key={q.id} value={q.id}>
+                  {q.label}
+                  {q.riskLevel === "high" ? " ⚠️" : q.riskLevel === "medium" ? " ●" : " ○"}
+                </option>
+              ))}
+            </select>
+            {selectedQuestionType && (
+              <div className={`risk-badge risk-${selectedQuestionType.riskLevel}`}>
+                {selectedQuestionType.riskLevel === "high" && "⚠️ Mức độ nhạy cảm cao"}
+                {selectedQuestionType.riskLevel === "medium" && "● Mức độ nhạy cảm trung bình"}
+                {selectedQuestionType.riskLevel === "low" && "○ Mức độ nhạy cảm thấp"}
+              </div>
+            )}
+          </div>
+
           <div className="question-input">
-            <label htmlFor="question">Câu hỏi / Chủ đề tham khảo (không bắt buộc)</label>
+            <label htmlFor="question">Câu hỏi cụ thể (không bắt buộc)</label>
             <input
               id="question"
               type="text"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Ví dụ: Điều cần lưu ý trong công việc hiện tại..."
+              placeholder={selectedQuestionType ? `Ví dụ: ${selectedQuestionType.guidanceTone}...` : "Ví dụ: Điều cần lưu ý trong công việc hiện tại..."}
             />
           </div>
           

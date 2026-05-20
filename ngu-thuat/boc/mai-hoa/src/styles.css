@@ -231,6 +231,61 @@ body {
   border-color: var(--gold);
 }
 
+/* Question Type Selector */
+.question-type-selector {
+  margin-bottom: 20px;
+}
+
+.question-type-selector label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.question-type-selector select {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.question-type-selector select:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.risk-badge {
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.risk-high {
+  background: rgba(192, 64, 64, 0.2);
+  color: #e07070;
+  border-left: 3px solid var(--error);
+}
+
+.risk-medium {
+  background: rgba(212, 160, 32, 0.2);
+  color: #e0c060;
+  border-left: 3px solid var(--warning);
+}
+
+.risk-low {
+  background: rgba(64, 160, 64, 0.2);
+  color: #60c060;
+  border-left: 3px solid var(--success);
+}
+
 .input-row {
   display: flex;
   gap: 16px;
